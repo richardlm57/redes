@@ -42,7 +42,7 @@ int main(){
 	}
 
 	printf("Escuchando\n");
-	if((listen(socketfd,5) != 0){
+	if (listen(socketfd,5) != 0){
 		printf("Error en listen() \n");
 		exit(-1);
 	}
