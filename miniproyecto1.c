@@ -15,13 +15,15 @@
 
 
 int main(){
-	int socketfd, localport, acceptsock;
+	int socketfd, localport, acceptsock, n;
 	struct sockaddr_in socketbind, clientaddr;
+	char* buffer;
 
 	localport=32000;
 	struct hostent* localhost = gethostbyname( "localhost" );
     long localhostaddress;
     memcpy( &localhostaddress, localhost->h_addr, localhost->h_length );
+
 
 	printf("Creando socket\n");
 	if ((socketfd=socket(AF_INET, SOCK_STREAM, 0)) < 0 ) {  
