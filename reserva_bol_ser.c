@@ -101,9 +101,11 @@ int main(int argc, char *argv[]){
 	bzero((char *) &clientaddr, sizeof(clientaddr));
 	size=sizeof(clientaddr);
 	
+	/*
 	for (i = 0; i < 10; i++)
 	for ( j = 0; j < 4; j++)
 	train[i][j] = 1;
+	*/
 
 	while (accepted = accept(socketfd, (struct sockaddr *)&clientaddr, &size)){
 		if (accepted < 0) {
