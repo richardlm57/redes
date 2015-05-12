@@ -50,16 +50,19 @@ main (int argc, char *argv[])
 	fila = atoi(argv[2]);
 
 	cl = clnt_create (host, DISPONIBLEPROG, DISPONIBLEVERS, "tcp");
-	if (clnt == NULL) {
+	if (cl == NULL) {
 		clnt_pcreateerror (host);
 		exit (1);
 	}
 
 	result_1 = disponible_1(&fila,cl);
 	if (result_1 == (int *) NULL) {
-		clnt_perror (clnt, "call failed");
+		clnt_perror (cl, "call failed");
+	}
+	else{
+		printf("%d\n",*result_1);
 	}
 
-	clnt_destroy(clnt);
+	clnt_destroy(cl);
 	exit (0);
 }
