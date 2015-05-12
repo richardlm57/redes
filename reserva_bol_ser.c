@@ -86,7 +86,7 @@ int main(int argc, char *argv[]){
 
 	serveraddr.sin_family = AF_INET;
 	bcopy((char *)localhost->h_addr, (char *)&serveraddr.sin_addr.s_addr, localhost->h_length);
-	//serveraddr.sin_addr.s_addr = localhostaddress;
+	serveraddr.sin_addr.s_addr = INADDR_ANY;
 	serveraddr.sin_port = htons(localport);
 
 	printf("Haciendo bind\n");
