@@ -6,9 +6,11 @@ pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 void* servicio(void *speak){
 	int sock = *(int*)speak;
 	int read_size;
-	char buffer[256];
+	char buffer[170];
+	char message[170];
+	char temp[1];
 	int i,j;
-	while( read(sock,buffer,256) ){
+	while( read(sock,buffer,170) ){
 		printf("%d%d\n",buffer[0],buffer[1]);
 		if (train[buffer[0]-1][buffer[1]-1]==0){
 			pthread_mutex_lock(&mutex);
@@ -19,19 +21,42 @@ void* servicio(void *speak){
 				exit(-1);
 			}
 		}
-
 		else{
-			if (write(sock,"Ocupado",8) < 0){
-				perror("Error en write()\n");
-				exit(-1);
+			strcpy(buffer,"");
+			for (i=0;i<10;i++){
+				for (j=0;j<4;j++){
+					if (train[i][j]==0){
+						sprintf(temp,"%d",i+1);
+						strcat(buffer,temp);
+						strcat(buffer," ");
+						sprintf(temp,"%d",j+1);
+						strcat(buffer,temp);
+						strcat(buffer,"\n");
+					}
+				}
+			}
+			printf("%s\n",buffer);
+			if ((strcmp(buffer,"")==0)){
+				if (write(sock,"Vagón completo",15) < 0){
+					perror("Error en write()\n");
+					exit(-1);
+				}
+			}
+			else{
+				strcpy(message,"Ocupado\n");
+				strcat(message,buffer);
+				if (write(sock,message,strlen(message)) < 0){
+					perror("Error en write()\n");
+					exit(-1);
+				}
 			}
 		}
-		for (i=0;i<10;i++){
-			for (j=0;j<4;j++){
-				printf("%d ",train[i][j]);
-			}
-			printf("\n");
+	}
+	for (i=0;i<10;i++){
+		for (j=0;j<4;j++){
+			printf("%d ",train[i][j]);
 		}
+		printf("\n");
 	}
 	free(speak);
 }
@@ -73,16 +98,13 @@ int main(int argc, char *argv[]){
 	printf("Escuchando\n");
 	listen(socketfd,3);
 
-	for (i=0;i<10;i++){
-		for (j=0;j<4;j++){
-			printf("%d ",train[i][j]);
-		}
-		printf("\n");
-	}
-
 	bzero((char *) &clientaddr, sizeof(clientaddr));
 	size=sizeof(clientaddr);
 	
+	for (i = 0; i < 10; i++)
+	for ( j = 0; j < 4; j++)
+	train[i][j] = 1;
+
 	while (accepted = accept(socketfd, (struct sockaddr *)&clientaddr, &size)){
 		if (accepted < 0) {
 			perror("Error en accept()\n");
