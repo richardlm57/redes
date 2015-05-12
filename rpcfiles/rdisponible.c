@@ -12,14 +12,14 @@
  	CLIENT *cl;
  	int *result;
  	char *server;
- 	char *message;
+ 	int *fila;
 
  	if (argc < 3) {
 
  	}
 
- 	fila = argv[1];
- 	columna = argv[2];
+ 	server = argv[1];
+ 	fila = atoi(argv[2]);
 
  	/* Creates the client handle used for calling DISPONIBLEPROG
  	*/
@@ -33,7 +33,7 @@
 
  	/* Call the remote procedure disponible_1 on the server */
 
- 	result = disponible_1 (&fila, &columna, cl);
+ 	result = disponible_1 (fila, cl);
 
  	if (result == NULL) {
 
@@ -45,15 +45,12 @@
  	if (*result == 0) {
  		/* Ocupado */
 
- 		printf("%s Está ocupado\n", fila);
+ 		printf("%d Está ocupado\n", *fila);
  		exit (1);
  	}
 
  	else {
- 		printf("%s Reservado\n", fila);
+ 		printf("%d Reservado\n", *fila);
  	}
 
-
-
- 	return 0;
  }
