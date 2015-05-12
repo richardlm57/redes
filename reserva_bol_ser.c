@@ -1,5 +1,41 @@
 #include "reserva_bol_ser.h"
 
+int train[10][4]={{0}};
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+
+void* servicio(void *speak){
+	int sock = *(int*)speak;
+	int read_size;
+	char buffer[256];
+	int i,j;
+	while( read(sock,buffer,256) ){
+		printf("%d%d\n",buffer[0],buffer[1]);
+		if (train[buffer[0]-1][buffer[1]-1]==0){
+			pthread_mutex_lock(&mutex);
+			train[buffer[0]-1][buffer[1]-1]=1;
+			pthread_mutex_unlock(&mutex);
+			if (write(sock,"Reservado",9) < 0){
+				perror("Error en write()\n");
+				exit(-1);
+			}
+		}
+
+		else{
+			if (write(sock,"Ocupado",8) < 0){
+				perror("Error en write()\n");
+				exit(-1);
+			}
+		}
+		for (i=0;i<10;i++){
+			for (j=0;j<4;j++){
+				printf("%d ",train[i][j]);
+			}
+			printf("\n");
+		}
+	}
+	free(speak);
+}
+
 int main(int argc, char *argv[]){
 
 	if ((argc!=7) || (strcmp(argv[1],"-f")!=0) || (strcmp(argv[3],"-c")!=0) || (strcmp(argv[5],"-p")!=0)) {
@@ -7,19 +43,16 @@ int main(int argc, char *argv[]){
 		exit(-1);
 	}
 
-	int socketfd, accepted;
+	int socketfd, accepted, *speak;
 	int localport=atoi(argv[6]);
-	int train[10][4]={{0}};
 	int i,j;
 	struct sockaddr_in serveraddr, clientaddr;
 	socklen_t size;
-	pid_t pid;
-	char buffer[256] = {0};
 	struct hostent* localhost = gethostbyname("localhost");
 	/* Esta parte no la entiendo mucho, ni aqui ni en el cliente
 	int localhostaddress;
     memcpy( &localhostaddress, localhost->h_addr, localhost->h_length );*/
-    bzero((char *) &serveraddr, sizeof(serveraddr));
+	bzero((char *) &serveraddr, sizeof(serveraddr));
 	printf("Creando socket\n");
 	if ((socketfd=socket(AF_INET, SOCK_STREAM, 0)) < 0 ) {  
 		perror("Error en socket()\n");
@@ -47,52 +80,23 @@ int main(int argc, char *argv[]){
 		printf("\n");
 	}
 
-	while (1){
-		bzero((char *) &clientaddr, sizeof(clientaddr));
-		size=sizeof(clientaddr);
-		accepted = accept(socketfd, (struct sockaddr *)&clientaddr, &size);
+	bzero((char *) &clientaddr, sizeof(clientaddr));
+	size=sizeof(clientaddr);
+	
+	while (accepted = accept(socketfd, (struct sockaddr *)&clientaddr, &size)){
 		if (accepted < 0) {
 			perror("Error en accept()\n");
 			exit(-1);
 		}
-		if (read(accepted,buffer,255) < 0){		
-			perror("Error en read()\n");
+		printf("Entre\n");
+		pthread_t t;
+		speak=(int *)malloc(sizeof(int));
+		*speak=accepted;
+		
+		if (pthread_create(&t,NULL,servicio,(void *)speak)){
+			perror("pthread_create");
 			exit(-1);
 		}
-
-		printf("%d%d\n",buffer[0],buffer[1]);
-
-		if (train[buffer[0]-1][buffer[1]-1]==0){
-			printf("%s\n",train);
-			train[buffer[0]-1][buffer[1]-1]=1;
-			if (write(accepted,"Reservado",9) < 0){
-				perror("Error en write()\n");
-				exit(-1);
-			}
-			//close(socketfd);
-			close(accepted);
-		}
-
-		else{
-			if (write(accepted,"Ocupado",8) < 0){
-				perror("Error en write()\n");
-				exit(-1);
-			}
-		}
-		for (i=0;i<10;i++){
-			for (j=0;j<4;j++){
-				printf("%d ",train[i][j]);
-			}
-			printf("\n");
-		}
-		/*
-		if ((pid=fork())==0){
-			sprintf(inisocket,"%d",socketfd);
-			sprintf(accsocket,"%d",accepted);
-			if(execlp("./servicio","servicio",inisocket,accsocket,train,NULL)<0){
-				perror("exec: ");
-				exit(1);
-			}*/
-	}	  
+	}
 	exit(0);
 }
