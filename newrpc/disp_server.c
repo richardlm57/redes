@@ -10,9 +10,7 @@
 
 int train[10][4];
 
-int *
-disponible_1_svc(int *fila, struct svc_req *rqstp)
-{
+int * disponible_1_svc(int *fila, struct svc_req *rqstp){
 	static int  result;
 
 	if (train[*fila - 1][*fila -1] == 0){

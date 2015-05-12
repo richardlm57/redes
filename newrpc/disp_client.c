@@ -38,16 +38,31 @@ main (int argc, char *argv[])
 {
 	char *host;
 	CLIENT *cl;
-	int fila;
+	int row;
 	int *result_1;
 
 
-	if (argc < 2) {
-		printf ("usage: %s server_host\n", argv[0]);
+	/* Verificación de los argumentos de entrada*/ 
+	if ((argc != 4) || (strcmp(argv[2],"-f") != 0) || (strcmp(argv[4],"-c") != 0)){
+		printf ("Error en los argumentos de entradas")
 		exit (1);
 	}
+
+	/* Verificación de un valor válido para el número de fila*/
+	if (atoi(argv[3]) > 10 || atoi(argv[3]) < 1 ){
+		printf ("Error: Número de fila inválido")
+		exit (1);
+	}
+
+	/* Verificación de un valor válido para el número de columna*/
+	if (atoi(argv[5]) > 4 || atoi(argv[5]) < 1 ){
+		printf ("Error: Número de columna inválido")
+		exit (1);
+	}
+
 	host = argv[1];
-	fila = atoi(argv[2]);
+	row = atoi(argv[3]);
+	column = atoi(argv[5]);
 
 	cl = clnt_create (host, DISPONIBLEPROG, DISPONIBLEVERS, "tcp");
 	if (cl == NULL) {
@@ -55,7 +70,7 @@ main (int argc, char *argv[])
 		exit (1);
 	}
 
-	result_1 = disponible_1(&fila,cl);
+	result_1 = disponible_1(&row,cl);
 	if (result_1 == (int *) NULL) {
 		clnt_perror (cl, "call failed");
 	}
