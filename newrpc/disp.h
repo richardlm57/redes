@@ -15,19 +15,25 @@ extern "C" {
 
 
 #define DISPONIBLEPROG 99
-#define DISPONIBLEVERS 1
+#define DISPONIBLEVERS 2
 
 #if defined(__STDC__) || defined(__cplusplus)
 #define DISPONIBLE 1
-extern  int * disponible_1(int *, CLIENT *);
-extern  int * disponible_1_svc(int *, struct svc_req *);
-extern int disponibleprog_1_freeresult (SVCXPRT *, xdrproc_t, caddr_t);
+extern  int * disponible_2(int *, CLIENT *);
+extern  int * disponible_2_svc(int *, struct svc_req *);
+#define VAGON 2
+extern  char ** vagon_2(void *, CLIENT *);
+extern  char ** vagon_2_svc(void *, struct svc_req *);
+extern int disponibleprog_2_freeresult (SVCXPRT *, xdrproc_t, caddr_t);
 
 #else /* K&R C */
 #define DISPONIBLE 1
-extern  int * disponible_1();
-extern  int * disponible_1_svc();
-extern int disponibleprog_1_freeresult ();
+extern  int * disponible_2();
+extern  int * disponible_2_svc();
+#define VAGON 2
+extern  char ** vagon_2();
+extern  char ** vagon_2_svc();
+extern int disponibleprog_2_freeresult ();
 #endif /* K&R C */
 
 #ifdef __cplusplus

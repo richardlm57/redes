@@ -3,13 +3,45 @@
  * These are only templates and you can use them
  * as a guideline for developing your own functions.
  */
-#include <stdlib.h>
-#include <stdio.h>
-#include "disp.h"
 
-int main (int argc, char *argv[]) {
+#include "reserva_bol.h"
 
-	char *host;
+
+void
+reserva_bol_prog_2(char *host)
+{
+	CLIENT *clnt;
+	int  *result_1;
+	char * is_available_2_arg;
+	char * *result_2;
+	char *seats_2_arg;
+
+#ifndef	DEBUG
+	clnt = clnt_create (host, RESERVA_BOL_PROG, RESERVA_BOL_VERS, "udp");
+	if (clnt == NULL) {
+		clnt_pcreateerror (host);
+		exit (1);
+	}
+#endif	/* DEBUG */
+
+	result_1 = is_available_2(&is_available_2_arg, clnt);
+	if (result_1 == (int *) NULL) {
+		clnt_perror (clnt, "call failed");
+	}
+	result_2 = seats_2((void*)&seats_2_arg, clnt);
+	if (result_2 == (char **) NULL) {
+		clnt_perror (clnt, "call failed");
+	}
+#ifndef	DEBUG
+	clnt_destroy (clnt);
+#endif	 /* DEBUG */
+}
+
+
+int
+main (int argc, char *argv[])
+{
+char *host;
 	CLIENT *cl;
 	int row;
 	int column;
@@ -56,7 +88,7 @@ int main (int argc, char *argv[]) {
 	while (1){
 
 		/* Verifica si el puesto está disponible */
-		result_1 = disponible_2(&row_column,cl);
+		result_1 = is_available_2(&row_column,cl);
 
 		if (result_1 == (int *) NULL) {
 			clnt_perror (cl, "call failed");
@@ -68,7 +100,7 @@ int main (int argc, char *argv[]) {
 		}
 		else if (*result_1 == 0){
 
-			result_2 = vagon_2((void*)&vagon_1_arg,cl);
+			result_2 = seats_2((void*)&vagon_1_arg,cl);
 			if (result_2 == (char **) NULL) {
 				clnt_perror (clnt, "call failed");
 			}

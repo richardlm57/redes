@@ -4,19 +4,19 @@
  */
 
 #include <memory.h> /* for memset */
-#include "disp.h"
+#include "reserva_bol.h"
 
 /* Default timeout can be changed using clnt_control() */
 static struct timeval TIMEOUT = { 25, 0 };
 
 int *
-disponible_2(int *argp, CLIENT *clnt)
+is_available_2(char **argp, CLIENT *clnt)
 {
 	static int clnt_res;
 
 	memset((char *)&clnt_res, 0, sizeof(clnt_res));
-	if (clnt_call (clnt, DISPONIBLE,
-		(xdrproc_t) xdr_int, (caddr_t) argp,
+	if (clnt_call (clnt, IS_AVAILABLE,
+		(xdrproc_t) xdr_wrapstring, (caddr_t) argp,
 		(xdrproc_t) xdr_int, (caddr_t) &clnt_res,
 		TIMEOUT) != RPC_SUCCESS) {
 		return (NULL);
@@ -25,12 +25,12 @@ disponible_2(int *argp, CLIENT *clnt)
 }
 
 char **
-vagon_2(void *argp, CLIENT *clnt)
+seats_2(void *argp, CLIENT *clnt)
 {
 	static char *clnt_res;
 
 	memset((char *)&clnt_res, 0, sizeof(clnt_res));
-	if (clnt_call (clnt, VAGON,
+	if (clnt_call (clnt, SEATS,
 		(xdrproc_t) xdr_void, (caddr_t) argp,
 		(xdrproc_t) xdr_wrapstring, (caddr_t) &clnt_res,
 		TIMEOUT) != RPC_SUCCESS) {

@@ -3,7 +3,7 @@
  * It was generated using rpcgen.
  */
 
-#include "disp.h"
+#include "reserva_bol.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <rpc/pmap_clnt.h>
@@ -17,10 +17,10 @@
 #endif
 
 static void
-disponibleprog_2(struct svc_req *rqstp, register SVCXPRT *transp)
+reserva_bol_prog_2(struct svc_req *rqstp, register SVCXPRT *transp)
 {
 	union {
-		int disponible_2_arg;
+		char *is_available_2_arg;
 	} argument;
 	char *result;
 	xdrproc_t _xdr_argument, _xdr_result;
@@ -31,16 +31,16 @@ disponibleprog_2(struct svc_req *rqstp, register SVCXPRT *transp)
 		(void) svc_sendreply (transp, (xdrproc_t) xdr_void, (char *)NULL);
 		return;
 
-	case DISPONIBLE:
-		_xdr_argument = (xdrproc_t) xdr_int;
+	case IS_AVAILABLE:
+		_xdr_argument = (xdrproc_t) xdr_wrapstring;
 		_xdr_result = (xdrproc_t) xdr_int;
-		local = (char *(*)(char *, struct svc_req *)) disponible_2_svc;
+		local = (char *(*)(char *, struct svc_req *)) is_available_2_svc;
 		break;
 
-	case VAGON:
+	case SEATS:
 		_xdr_argument = (xdrproc_t) xdr_void;
 		_xdr_result = (xdrproc_t) xdr_wrapstring;
-		local = (char *(*)(char *, struct svc_req *)) vagon_2_svc;
+		local = (char *(*)(char *, struct svc_req *)) seats_2_svc;
 		break;
 
 	default:
@@ -68,15 +68,15 @@ main (int argc, char **argv)
 {
 	register SVCXPRT *transp;
 
-	pmap_unset (DISPONIBLEPROG, DISPONIBLEVERS);
+	pmap_unset (RESERVA_BOL_PROG, RESERVA_BOL_VERS);
 
 	transp = svcudp_create(RPC_ANYSOCK);
 	if (transp == NULL) {
 		fprintf (stderr, "%s", "cannot create udp service.");
 		exit(1);
 	}
-	if (!svc_register(transp, DISPONIBLEPROG, DISPONIBLEVERS, disponibleprog_2, IPPROTO_UDP)) {
-		fprintf (stderr, "%s", "unable to register (DISPONIBLEPROG, DISPONIBLEVERS, udp).");
+	if (!svc_register(transp, RESERVA_BOL_PROG, RESERVA_BOL_VERS, reserva_bol_prog_2, IPPROTO_UDP)) {
+		fprintf (stderr, "%s", "unable to register (RESERVA_BOL_PROG, RESERVA_BOL_VERS, udp).");
 		exit(1);
 	}
 
@@ -85,8 +85,8 @@ main (int argc, char **argv)
 		fprintf (stderr, "%s", "cannot create tcp service.");
 		exit(1);
 	}
-	if (!svc_register(transp, DISPONIBLEPROG, DISPONIBLEVERS, disponibleprog_2, IPPROTO_TCP)) {
-		fprintf (stderr, "%s", "unable to register (DISPONIBLEPROG, DISPONIBLEVERS, tcp).");
+	if (!svc_register(transp, RESERVA_BOL_PROG, RESERVA_BOL_VERS, reserva_bol_prog_2, IPPROTO_TCP)) {
+		fprintf (stderr, "%s", "unable to register (RESERVA_BOL_PROG, RESERVA_BOL_VERS, tcp).");
 		exit(1);
 	}
 
