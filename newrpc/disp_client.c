@@ -85,7 +85,17 @@ int main (int argc, char *argv[]) {
 			break;
 		}
 		else if (*result_1 == 0){
-			printf("El puesto fila %d columna %d está ocupado\n", row, column);			
+
+			funcion () -> string
+
+			if (result == ){
+
+				printf("El puesto fila %d columna %d está ocupado\n", row, column);			
+			}
+			else {
+				printf("El vagón está completo.\n");
+			}
+
 		}
 	}
 
