@@ -33,9 +33,8 @@ disponibleprog_1(char *host)
 }
 
 
-int
-main (int argc, char *argv[])
-{
+int main (int argc, char *argv[]) {
+
 	char *host;
 	CLIENT *cl;
 	int row;
@@ -49,33 +48,45 @@ main (int argc, char *argv[])
 	}
 
 	/* Verificación de un valor válido para el número de fila*/
-	if (atoi(argv[3]) > 10 || atoi(argv[3]) < 1 ){
+	else if (atoi(argv[3]) > 10 || atoi(argv[3]) < 1 ){
 		printf ("Error: Número de fila inválido")
 		exit (1);
 	}
 
 	/* Verificación de un valor válido para el número de columna*/
-	if (atoi(argv[5]) > 4 || atoi(argv[5]) < 1 ){
+	else if (atoi(argv[5]) > 4 || atoi(argv[5]) < 1 ){
 		printf ("Error: Número de columna inválido")
 		exit (1);
 	}
 
+	/* Asignación de las variables de entrada*/
 	host = argv[1];
 	row = atoi(argv[3]);
 	column = atoi(argv[5]);
 
+	/* Crea el cliente*/
 	cl = clnt_create (host, DISPONIBLEPROG, DISPONIBLEVERS, "tcp");
 	if (cl == NULL) {
 		clnt_pcreateerror (host);
 		exit (1);
 	}
 
-	result_1 = disponible_1(&row,cl);
-	if (result_1 == (int *) NULL) {
-		clnt_perror (cl, "call failed");
-	}
-	else{
-		printf("%d\n",*result_1);
+	while (1){
+
+		/* Verifica si el puesto está disponible */
+		result_1 = disponible_1(&row,cl);
+
+		if (result_1 == (int *) NULL) {
+			clnt_perror (cl, "call failed");
+			break;
+		}
+		else if (*result_1 == 1){
+			printf("El puesto fila %d columna %d ha sido reservado\n", row, column);
+			break;
+		}
+		else if (*result_1 == 0){
+			printf("El puesto fila %d columna %d está ocupado\n", row, column);			
+		}
 	}
 
 	clnt_destroy(cl);
