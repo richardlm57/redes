@@ -9,9 +9,6 @@ int main(int argc, char *argv[]){
 
 	int socketfd;
 	int i=0;
-	int done=1;
-	int inputA=0;
-	int inputB=0;
 	struct sockaddr_in serveraddr;
 	//struct hostent* server;
 
@@ -67,46 +64,8 @@ int main(int argc, char *argv[]){
 		perror("Error en read()\n");
 		exit(1);
 	}
-	
-	if (buffer[0]=='O'){
-		done=0;
-	}
 
 	printf("%s\n",buffer);
 
-	while (!(done)){
-		bzero(buffer,256); 
-		printf("Ingresa un valor para la fila: ");
-		scanf("%d", &inputA);
-		printf("Ingresa un valor para la columna: ");
-		scanf("%d", &inputB);
-		if ((inputA > 10) || (inputA < 1) || (inputB > 4) || (inputB < 1)){
-			printf("Los valores son inválidos.");
-			continue;
-		}
-
-		buffer[0]=inputA;
-		buffer[1]=inputB;
-		if (write(socketfd, buffer, strlen(buffer)) < 0){
-			perror("Error en write()\n");
-			exit(-1);
-		}
-
-		bzero(buffer,256);
-
-		//Lectura del servidor  
-		if (read(socketfd, buffer, 255)< 0){
-			perror("Error en read()\n");
-			exit(1);
-		}
-
-		if (buffer[0]=='O'){
-			done=0;
-		}
-		else{
-			done=1;
-		}
-		printf("%s\n",buffer);
-	}
 	exit(0);
 }
