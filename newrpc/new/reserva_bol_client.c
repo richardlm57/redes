@@ -48,7 +48,6 @@ char *host;
 	int *result_1;
 	char **result_2;
 	char *vagon_1_arg;
-	char temp[3];
 	char *row_column;
 
 	/* Verificación de los argumentos de entrada*/ 
@@ -59,13 +58,13 @@ char *host;
 
 	/* Verificación de un valor válido para el número de fila*/
 	else if (atoi(argv[3]) > 10 || atoi(argv[3]) < 1 ){
-		printf ("Error: Número de fila inválido");
+		printf ("Error: Número de fila inválido \n");
 		exit (1);
 	}
 
 	/* Verificación de un valor válido para el número de columna*/
 	else if (atoi(argv[5]) > 4 || atoi(argv[5]) < 1 ){
-		printf ("Error: Número de columna inválido");
+		printf ("Error: Número de columna inválido\n");
 		exit (1);
 	}
 
@@ -76,12 +75,6 @@ char *host;
 
 	row_column = malloc(sizeof(char) * 4);
 
-	strcpy(row_column,argv[3]);
-	strcat(row_column," ");
-	strcat(row_column,argv[5]);
-
-	printf("%s\n",host );
-
 	/* Crea el cliente*/
 	cl = clnt_create (host, RESERVA_BOL_PROG, RESERVA_BOL_VERS, "udp");
 	if (cl == NULL) {
@@ -89,11 +82,12 @@ char *host;
 		exit (1);
 	}
 
-
 	while (1){
 
+		sprintf(row_column, "%d %d", row, column);
 		/* Verifica si el puesto está disponible */
 		result_1 = is_available_2(&row_column,cl);
+		printf("%d\n", *result_1);
 
 		if (result_1 == (int *) NULL) {
 			clnt_perror (cl, "call failed");
@@ -106,7 +100,7 @@ char *host;
 		}
 		/* Sino lo está*/
 		else if (*result_1 == 0){
-
+			
 			result_2 = seats_2((void*)&vagon_1_arg,cl);
 
 			if (result_2 == (char **) NULL) {
@@ -122,18 +116,11 @@ char *host;
 			/*Si el vagón no está lleno*/
 			else { 
 				printf("El puesto fila %d columna %d está ocupado\nPuestos disponibles:\n%s\n", row, column, *result_2);
-				
-				printf("Introduzca un fila\n");
-				fgets(temp, 2, stdin);
-				memset(row_column, ' ', 4);
-				strcpy(row_column, temp);
-				strcat(row_column, " ");
-
-				printf("Introduzca un columna\n");	
-				fgets(temp, 1, stdin);
-				strcat(row_column, temp);
+				printf("Número de fila: ");
+				scanf ("%d", &row);
+				printf("Número de columna: ");
+				scanf ("%d", &column);
 			}
-
 		}
 	}
 

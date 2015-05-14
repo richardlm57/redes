@@ -27,24 +27,27 @@ int * disponible_2_svc(int *row, struct svc_req *rqstp){
 char ** vagon_2_svc(void * argp, struct  svc_req *rqstp){
 	
 	static char *result;
-	char buffer [170]; 
+	result = "2";
+	/*char buffer [170]; 
 	char temp[1];
 	int i,j;
 
+	printf("%s\n","HOLA" );
 	strcpy(buffer,"");
-	for (i=0;i<10;i++){
-		for (j=0;j<4;j++){
-			if (train[i][j]==0){
-				sprintf(temp,"%d",i+1);
-				strcat(buffer,temp);
-				strcat(buffer," ");
-				sprintf(temp,"%d",j+1);
-				strcat(buffer,temp);
-				strcat(buffer,"\n");
+	for (i = 0; i < 10; i++){
+		for (j = 0; j < 4; j++){
+			if (train[i][j] == 0){
+				sprintf(temp, "%d", i + 1);
+				printf("%s\n", buffer);
+				strcat(buffer, temp);
+				strcat(buffer, " ");
+				sprintf(temp, "%d", j + 1);
+				strcat(buffer, temp);
+				strcat(buffer, "\n");
 			}
 		}
 	}
-	strcpy(result,buffer);
-	return &result;
+	strcpy(result, buffer);
+	*/return &result;
 
 }

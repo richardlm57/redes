@@ -35,22 +35,35 @@ char ** seats_2_svc(void *argp, struct svc_req *rqstp){
 
 	static char *result;
 	char buffer [170]; 
-	char temp[1];
+	char temp[4];
 	int i, j;
 
+	printf("%s\n", "HOLA");
 	strcpy(buffer,"");
+	printf("%s\n", buffer);
 	for (i = 0; i < 10; i++){
 		for (j = 0; j < 4; j++){
 			if (train[i][j] == 0){
-				sprintf(temp, "%d", i+1);
+				
+				sprintf(temp,"%d %d\n", i + 1, j + 1);
 				strcat(buffer, temp);
-				strcat(buffer, " ");
-				sprintf(temp, "%d", j+1);
-				strcat(buffer, temp);
-				strcat(buffer, "\n");
+				//sprintf(temp, "%d", i+1);
+				//strcat(buffer, temp);
+				//strcat(buffer, " ");
+
+				//sprintf(temp, "%d", j+1);
+				//strcat(buffer, temp);
+				//strcat(buffer, "\n");
+
 			}
+
 		}
+		printf("%s\n", buffer);
 	}
-	strcpy(result,buffer);
+
+	printf("%s\n",buffer);
+	//strcpy(result,buffer);
+	result = "1";
+	printf("%s\n", result);
 	return &result;
 }
