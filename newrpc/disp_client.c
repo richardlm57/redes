@@ -20,20 +20,20 @@ int main (int argc, char *argv[]) {
 	char row_column[4];
 
 	/* Verificación de los argumentos de entrada*/ 
-	if ((argc != 4) || (strcmp(argv[2],"-f") != 0) || (strcmp(argv[4],"-c") != 0)){
-		printf ("Error en los argumentos de entradas")
+	if ((argc != 6) || (strcmp(argv[2],"-f") != 0) || (strcmp(argv[4],"-c") != 0)){
+		printf ("Error en los argumentos de entradas");
 		exit (1);
 	}
 
 	/* Verificación de un valor válido para el número de fila*/
 	else if (atoi(argv[3]) > 10 || atoi(argv[3]) < 1 ){
-		printf ("Error: Número de fila inválido")
+		printf ("Error: Número de fila inválido");
 		exit (1);
 	}
 
 	/* Verificación de un valor válido para el número de columna*/
 	else if (atoi(argv[5]) > 4 || atoi(argv[5]) < 1 ){
-		printf ("Error: Número de columna inválido")
+		printf ("Error: Número de columna inválido");
 		exit (1);
 	}
 
@@ -42,9 +42,9 @@ int main (int argc, char *argv[]) {
 	row = atoi(argv[3]);
 	column = atoi(argv[5]);
 
-	strcpy(row_column,argv[3]);
-	strcat(row_column," ");
-	strcat(row_column,argv[5]);
+	//strcpy(row_column,argv[3]);
+	//strcat(row_column," ");
+	//strcat(row_column,argv[5]);
 
 	/* Crea el cliente*/
 	cl = clnt_create (host, DISPONIBLEPROG, DISPONIBLEVERS, "tcp");
@@ -56,7 +56,7 @@ int main (int argc, char *argv[]) {
 	while (1){
 
 		/* Verifica si el puesto está disponible */
-		result_1 = disponible_2(&row_column,cl);
+		result_1 = disponible_2(&row,cl);
 
 		if (result_1 == (int *) NULL) {
 			clnt_perror (cl, "call failed");
@@ -70,26 +70,17 @@ int main (int argc, char *argv[]) {
 
 			result_2 = vagon_2((void*)&vagon_1_arg,cl);
 			if (result_2 == (char **) NULL) {
-				clnt_perror (clnt, "call failed");
+				clnt_perror (cl, "call failed");
 			}
 
-			if (strcmp(result_2,"") == 0){
+			if (strcmp(*result_2,"") == 0){
 
 				printf("El vagón está completo.\n");
 				break;
 							}
 			else {
-				printf("El puesto fila %d columna %d está ocupado\nPuestos disponibles:\n%s\n", row, column, result_2);
-				
-				printf("Introduzca un fila\n");
-				gets(temp);
-				memset(row_column, " ", 4);
-				strcpy(row_column, temp);
-				strcat(row_column, " ");
-
-				printf("Introduzca un columna\n");	
-				gets(temp);
-				strcat(row_column, temp);
+				printf("El puesto fila %d columna %d está ocupado\nPuestos disponibles:\n%s\n", row, column, *result_2);
+				break;
 			}
 
 		}

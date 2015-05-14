@@ -10,18 +10,11 @@
 
 int train[10][4] = {{0}};
 
-int * disponible_2_svc(char *row_column, struct svc_req *rqstp){
+int * disponible_2_svc(int *row, struct svc_req *rqstp){
 	static int  result;
-	char * token;
-	int row, column;
-
-	token = strtok(row_column, " ");
-	row = atoi(token);
-	token = strtok(NULL, " ");
-	column = atoi(token);
-
-	if (train[row - 1][column -1] == 0){
-		train[row - 1][column - 1] = 1;
+	
+	if (train[*row - 1][*row -1] == 0){
+		train[*row - 1][*row - 1] = 1;
 		result = 1;
 		return (&result);
 	}
@@ -35,6 +28,8 @@ char ** vagon_2_svc(void * argp, struct  svc_req *rqstp){
 	
 	static char *result;
 	char buffer [170]; 
+	char temp[1];
+	int i,j;
 
 	strcpy(buffer,"");
 	for (i=0;i<10;i++){
@@ -48,6 +43,7 @@ char ** vagon_2_svc(void * argp, struct  svc_req *rqstp){
 				strcat(buffer,"\n");
 			}
 		}
+	}
 	strcpy(result,buffer);
 	return &result;
 
