@@ -4,32 +4,32 @@
  * as a guideline for developing your own functions.
  */
 
-#include "reserva_bol.h"
+#include "reserva_bool.h"
 
 
 void
-reserva_bol_prog_2(char *host)
+reserva_bool_prog_3(char *host)
 {
 	CLIENT *clnt;
 	int  *result_1;
-	char * is_available_2_arg;
-	char * *result_2;
-	char *seats_2_arg;
+	char * make_reservation_3_arg;
+	int  *result_2;
+	char * available_3_arg;
 
 #ifndef	DEBUG
-	clnt = clnt_create (host, RESERVA_BOL_PROG, RESERVA_BOL_VERS, "udp");
+	clnt = clnt_create (host, RESERVA_BOOL_PROG, RESERVA_BOOL_VERS, "udp");
 	if (clnt == NULL) {
 		clnt_pcreateerror (host);
 		exit (1);
 	}
 #endif	/* DEBUG */
 
-	result_1 = is_available_2(&is_available_2_arg, clnt);
+	result_1 = make_reservation_3(&make_reservation_3_arg, clnt);
 	if (result_1 == (int *) NULL) {
 		clnt_perror (clnt, "call failed");
 	}
-	result_2 = seats_2((void*)&seats_2_arg, clnt);
-	if (result_2 == (char **) NULL) {
+	result_2 = available_3(&available_3_arg, clnt);
+	if (result_2 == (int *) NULL) {
 		clnt_perror (clnt, "call failed");
 	}
 #ifndef	DEBUG
@@ -41,11 +41,11 @@ reserva_bol_prog_2(char *host)
 int
 main (int argc, char *argv[])
 {
-char *host;
+	char *host;
 	CLIENT *cl;
 	int row, column, i ,j;
 	int *result_1;
-	char **result_2;
+	int *result_2;
 	char *vagon_1_arg;
 	char *row_column;
 	char buffer[170];
@@ -76,7 +76,7 @@ char *host;
 	row_column = malloc(sizeof(char) * 4);
 
 	/* Crea el cliente*/
-	cl = clnt_create (host, RESERVA_BOL_PROG, RESERVA_BOL_VERS, "udp");
+	cl = clnt_create (host, RESERVA_BOOL_PROG, RESERVA_BOOL_VERS, "tcp");
 	if (cl == NULL) {
 		clnt_pcreateerror (host);
 		exit (1);
@@ -86,7 +86,7 @@ char *host;
 
 		sprintf(row_column, "%d %d", row, column);
 		/* Verifica si el puesto está disponible */
-		result_1 = is_available_2(&row_column,cl);
+		result_1 = make_reservation_3(&row_column,cl);
 		printf("%d\n", *result_1);
 
 		if (result_1 == (int *) NULL) {
@@ -108,14 +108,15 @@ char *host;
 					
 					row = i + 1;
 					column = j + 1;
-					sprintf(row_column, "%d %d", row, column);
+					sprintf(row_column, "%d %d\n", row, column);
+					result_2 = available_3(&row_column, cl);
 
-					if (result_1 == (int *) NULL) {
+					if (result_2 == (int *) NULL) {
 						clnt_perror (cl, "call failed");
 						break;
 					}
 
-					else if (*result_1 == 1){
+					else if (*result_2 == 1){
 						strcat(buffer, row_column);
 					}				
 
@@ -135,7 +136,7 @@ char *host;
 			}
 			//*Si el vagón no está lleno*/
 			else { 
-				printf("El puesto fila %d columna %d está ocupado\nPuestos disponibles:\n%s\n", row, column, *result_2);
+				printf("Puesto ocupado\nPuestos disponibles:\n%s\n", buffer);
 				printf("Número de fila: ");
 				scanf ("%d", &row);
 				printf("Número de columna: ");

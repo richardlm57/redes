@@ -37,6 +37,8 @@ char ** seats_2_svc(void *argp, struct svc_req *rqstp){
 	char buffer [170]; 
 	char temp[4];
 	int i, j;
+	static char patty[170];
+	static char * const patty_name = patty;
 
 	printf("%s\n", "HOLA");
 	strcpy(buffer,"");
@@ -58,12 +60,12 @@ char ** seats_2_svc(void *argp, struct svc_req *rqstp){
 			}
 
 		}
-		printf("%s\n", buffer);
+//		printf("%s\n", buffer);
 	}
 
-	printf("%s\n",buffer);
-	//strcpy(result,buffer);
-	result = "1";
+//	printf("%s\n",buffer);
+	strncpy(patty,buffer, sizeof(buffer));
+//	result = "1";
 	printf("%s\n", result);
 	return &result;
 }

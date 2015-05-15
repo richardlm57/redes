@@ -3,7 +3,7 @@
  * It was generated using rpcgen.
  */
 
-#include "reserva_bol.h"
+#include "reserva_bool.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <rpc/pmap_clnt.h>
@@ -17,10 +17,11 @@
 #endif
 
 static void
-reserva_bol_prog_2(struct svc_req *rqstp, register SVCXPRT *transp)
+reserva_bool_prog_3(struct svc_req *rqstp, register SVCXPRT *transp)
 {
 	union {
-		char *is_available_2_arg;
+		char *make_reservation_3_arg;
+		char *available_3_arg;
 	} argument;
 	char *result;
 	xdrproc_t _xdr_argument, _xdr_result;
@@ -31,16 +32,16 @@ reserva_bol_prog_2(struct svc_req *rqstp, register SVCXPRT *transp)
 		(void) svc_sendreply (transp, (xdrproc_t) xdr_void, (char *)NULL);
 		return;
 
-	case IS_AVAILABLE:
+	case MAKE_RESERVATION:
 		_xdr_argument = (xdrproc_t) xdr_wrapstring;
 		_xdr_result = (xdrproc_t) xdr_int;
-		local = (char *(*)(char *, struct svc_req *)) is_available_2_svc;
+		local = (char *(*)(char *, struct svc_req *)) make_reservation_3_svc;
 		break;
 
-	case SEATS:
-		_xdr_argument = (xdrproc_t) xdr_void;
-		_xdr_result = (xdrproc_t) xdr_wrapstring;
-		local = (char *(*)(char *, struct svc_req *)) seats_2_svc;
+	case AVAILABLE:
+		_xdr_argument = (xdrproc_t) xdr_wrapstring;
+		_xdr_result = (xdrproc_t) xdr_int;
+		local = (char *(*)(char *, struct svc_req *)) available_3_svc;
 		break;
 
 	default:
@@ -68,15 +69,15 @@ main (int argc, char **argv)
 {
 	register SVCXPRT *transp;
 
-	pmap_unset (RESERVA_BOL_PROG, RESERVA_BOL_VERS);
+	pmap_unset (RESERVA_BOOL_PROG, RESERVA_BOOL_VERS);
 
 	transp = svcudp_create(RPC_ANYSOCK);
 	if (transp == NULL) {
 		fprintf (stderr, "%s", "cannot create udp service.");
 		exit(1);
 	}
-	if (!svc_register(transp, RESERVA_BOL_PROG, RESERVA_BOL_VERS, reserva_bol_prog_2, IPPROTO_UDP)) {
-		fprintf (stderr, "%s", "unable to register (RESERVA_BOL_PROG, RESERVA_BOL_VERS, udp).");
+	if (!svc_register(transp, RESERVA_BOOL_PROG, RESERVA_BOOL_VERS, reserva_bool_prog_3, IPPROTO_UDP)) {
+		fprintf (stderr, "%s", "unable to register (RESERVA_BOOL_PROG, RESERVA_BOOL_VERS, udp).");
 		exit(1);
 	}
 
@@ -85,8 +86,8 @@ main (int argc, char **argv)
 		fprintf (stderr, "%s", "cannot create tcp service.");
 		exit(1);
 	}
-	if (!svc_register(transp, RESERVA_BOL_PROG, RESERVA_BOL_VERS, reserva_bol_prog_2, IPPROTO_TCP)) {
-		fprintf (stderr, "%s", "unable to register (RESERVA_BOL_PROG, RESERVA_BOL_VERS, tcp).");
+	if (!svc_register(transp, RESERVA_BOOL_PROG, RESERVA_BOOL_VERS, reserva_bool_prog_3, IPPROTO_TCP)) {
+		fprintf (stderr, "%s", "unable to register (RESERVA_BOOL_PROG, RESERVA_BOOL_VERS, tcp).");
 		exit(1);
 	}
 
