@@ -11,7 +11,9 @@ int main(int argc, char *argv[]){
 	int i=0;
 	struct sockaddr_in serveraddr;
 	//struct hostent* server;
-
+	int done=1;
+	int row=0;
+	int column=0;
 	char buffer[256];
 
 	int localport = atoi(argv[3]);
@@ -66,6 +68,58 @@ int main(int argc, char *argv[]){
 	}
 
 	printf("%s\n",buffer);
+
+	if (buffer[0]=='O'){
+		done=0;
+	}
+
+	while (!(done)){
+		done=1;
+		//Input
+		bzero(buffer,256);
+		printf("Introduce fila: \n");
+		scanf("%d", &row);
+		printf("Introduce columna: \n");
+		scanf("%d", &column);
+		buffer[0]=row;
+		buffer[1]=column;
+		if ((row > 10) || (row < 1) || (column > 4) || (column < 1)){
+			printf("Error en argumentos\n");
+			done=0;
+		}
+		else{
+			while (i<3){
+				if (connect(socketfd, (struct sockaddr*)&serveraddr, sizeof(serveraddr)) >= 0){
+					break;
+				}
+				if (i==3){
+					perror("Se ha agotado el tiempo de espera");
+					exit(-1);
+				}
+				i++;
+			}
+
+			//Escribir al servidor   
+			if (write(socketfd, buffer, strlen(buffer)) < 0){
+				perror("Error en write()\n");
+				exit(-1);
+			}
+
+			bzero(buffer,256);
+
+			//Lectura del servidor  
+			if (read(socketfd, buffer, 255)< 0){
+				perror("Error en read()\n");
+				exit(1);
+			}
+
+			printf("%s\n",buffer);
+
+			if (buffer[0]=='O'){
+				done=0;
+			}
+		}
+	}
 
 	exit(0);
 }
