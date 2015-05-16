@@ -19,7 +19,7 @@ make_reservation_3_svc(seat *myseat, int *result, struct svc_req *rqstp)
 		*result = 1; 
 	}
 	else{
-		retval = 0;
+		retval = 1;
 		*result = 0;
 	}
 
@@ -36,7 +36,7 @@ available_3_svc(seat *myseat, int *result, struct svc_req *rqstp)
 		*result = 1;
 	}
 	else{
-		retval = 0;
+		retval = 1;
 		*result = 0;
 	}
 
@@ -52,26 +52,30 @@ seats_3_svc(void *argp, char **result, struct svc_req *rqstp)
 	char temp[4];
 	strcpy(buffer,"");
 
+	printf("%s\n",  "HOLA");
 	memset(*result,' ',170);
-	
+	printf("%s\n", "hey");
 	for (i = 0; i < 10; i++){
-		for (j = 0; i < 4; j++){
-			if (train[i - 1][j -1] == 0){
-				sprintf(temp, "%d %d", i+1, j+1);
+		for (j = 0; j < 4; j++){
+			if (train[i][j] == 0){
+				sprintf(temp, "%d %d\n", i + 1, j + 1);
+				//printf("%s\n", temp);
 				strcat(buffer,temp);
 			}
 		}
 	}
-
+	printf("%s\n",buffer);
+	printf("%d\n", strlen(buffer));
+	printf("%s\n", *result);
 	strcpy(*result,buffer);
 	retval = 1;
-	return retval;
+	return 1;
 }
 
 int
 reserva_bool_prog_3_freeresult (SVCXPRT *transp, xdrproc_t xdr_result, caddr_t result)
 {
-	xdr_free (xdr_result, result);
+	//xdr_free (xdr_result, result);
 
 	/*
 	 * Insert additional freeing code here, if needed
