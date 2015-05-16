@@ -1,0 +1,49 @@
+Para la implementación del miniproyecto 1, se utilizó el principio de llamadas
+remotas a procedimientos RPC, que utiliza el modelo Cliente - Servidor.
+
+Para pasar los parámetros de a estos procedimientos se utiliza el protocolo
+eXternal Data Respresentation (XDR), que permite estandarizar el formato de
+los datos que viajan por la red.
+
+Además se agregan Stubs, que son procesos adicionales que son generados para
+implementar la interfaz RPC, estos archivos son generados automáticamente al
+compilar con RPCGEN.
+
+Sun RPC contiene el compilador RPCGEN que facilita el desarrollo del programa
+al generar automáticamente los Stubs necesarios y las plantillas para los archivos 
+del servidor y del cliente. 
+Además  permite elegir entre el protocolo TPC o UDP, en este caso se utilizó TCP,
+que es más confiable.
+
+El servidor será un programa que se ejecuta en un computador remoto, está compuesto
+por un conjunto de procedimientos globales compartidos.
+
+Para hacer la posible la comunicación, a cada servicio se le asigna dinámicamente y
+temporalmente un puerto. El demonio port mapper es el mecanismo que permite al cliente
+obtener el número de puesto del servidor.
+
+En el archivo reserva_bool_server.c se encuentra la implementación de las funciones
+del servidor.
+
+Este archivo contiene la variable train, que es una matriz de enteros 10x4, inicializada
+con valores "0", que representa cada puesto del vago. 
+
+A continuación se encuentran:
+
+bool_t make_reservation_3_svc(seat *myseat, int *result, struct, svc_req *rqstp)
+
+Este procedimiento remoto, se encarga de verificar el el puesto está disponible,
+en caso de que así sea, lo reserva.
+
+Cabe destacar que myseat es una variable del tipo struct, que contien la fila 
+y la columna correspondiente a un asiento, para el uso de este tipo de variables
+es necesario utilizar XDR.
+
+bool_t seats_3_svc(void *argp, char **result, struct svc_req *rqstp)
+
+Este procedimiento remoto sirve para indicarle al usuario cuales son los puestos
+disponibles.
+
+
+La versión de el archivo reserva_bool.x es la tercera, debido a que se hicieron muchos
+cambios a medida que se iba desarrollando el miniproyecto.
