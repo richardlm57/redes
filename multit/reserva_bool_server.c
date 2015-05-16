@@ -56,9 +56,8 @@ seats_3_svc(void *argp, char **result, struct svc_req *rqstp)
 	char temp[4];
 	strcpy(buffer,"");
 
-	printf("%s\n",  "HOLA");
 	memset(*result,' ',170);
-	printf("%s\n", "hey");
+
 	for (i = 0; i < 10; i++){
 		for (j = 0; j < 4; j++){
 			if (train[i][j] == 0){
@@ -68,9 +67,6 @@ seats_3_svc(void *argp, char **result, struct svc_req *rqstp)
 			}
 		}
 	}
-	printf("%s\n",buffer);
-	printf("%d\n", strlen(buffer));
-	printf("%s\n", *result);
 	strcpy(*result,buffer);
 	retval = 1;
 	return 1;

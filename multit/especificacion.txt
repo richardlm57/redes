@@ -1,19 +1,15 @@
-Para la implementación del miniproyecto 1, se utilizó el principio de llamadas
+Para la implementación del
+ miniproyecto 1, se utilizó el principio de llamadas
 remotas a procedimientos RPC, que utiliza el modelo Cliente - Servidor.
+
+Sun RPC contiene el compilador RPCGEN que facilita el desarrollo del programa
+al generar automáticamente los Stubs necesarios y las plantillas para los archivos 
+del servidor y del cliente. Además  permite elegir entre el protocolo TPC o UDP, en
+este caso se utilizó TCP, que es más confiable.
 
 Para pasar los parámetros de a estos procedimientos se utiliza el protocolo
 eXternal Data Respresentation (XDR), que permite estandarizar el formato de
 los datos que viajan por la red.
-
-Además se agregan Stubs, que son procesos adicionales que son generados para
-implementar la interfaz RPC, estos archivos son generados automáticamente al
-compilar con RPCGEN.
-
-Sun RPC contiene el compilador RPCGEN que facilita el desarrollo del programa
-al generar automáticamente los Stubs necesarios y las plantillas para los archivos 
-del servidor y del cliente. 
-Además  permite elegir entre el protocolo TPC o UDP, en este caso se utilizó TCP,
-que es más confiable.
 
 El servidor será un programa que se ejecuta en un computador remoto, está compuesto
 por un conjunto de procedimientos globales compartidos.

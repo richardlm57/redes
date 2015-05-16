@@ -23,14 +23,26 @@ void reserva_bool_prog_3(char *host, int row, int column){
 	enum clnt_stat retval_3;
 	char *result_3;
 	char *seats_3_arg;
+	int i;
 
 
 #ifndef	DEBUG
-	clnt = clnt_create (host, RESERVA_BOOL_PROG, RESERVA_BOOL_VERS, "tcp");
-	if (clnt == NULL) {
-		clnt_pcreateerror (host);
-		exit (1);
+
+	for (i = 0; i < 3; i++){
+	
+		clnt = clnt_create (host, RESERVA_BOOL_PROG, RESERVA_BOOL_VERS, "tcp");
+		
+		if (clnt == NULL)  {
+			clnt_pcreateerror (host);
+		}
+		else{
+			break;
+		}
+		if (i == 2){
+			exit (1);
+		}
 	}
+
 #endif	/* DEBUG */
 
 	result_3 = malloc(sizeof(char)*170);
@@ -50,26 +62,27 @@ void reserva_bool_prog_3(char *host, int row, int column){
 
 		make_reservation_3_arg.row = row;
 		make_reservation_3_arg.column = column;
-
+		
 		retval_1 = make_reservation_3(&make_reservation_3_arg, &result_1, clnt);
-
 		if (retval_1 != RPC_SUCCESS) {
-			clnt_perror (clnt, "Llamada fallida");
+			clnt_perror (clnt, "Llamada fallida");	
 		}
-		else if (result_1 == 1){
+
+		if (result_1 == 1){
 			printf("El puesto fila %d columna %d ha sido reservado\n", make_reservation_3_arg.row, make_reservation_3_arg.column);
 			break;
 		}
-		else {
-			printf("%s\n", "OCUPADO");
+		else if (result_1 == 0) {
+				
 			retval_3 = seats_3((void*)&seats_3_arg, &result_3, clnt);
-			
+				
 			if (retval_3 != RPC_SUCCESS) {
 				clnt_perror (clnt, "Llamada fallida");
 			}
+
 			if (strcmp(result_3,"") == 0){
 				printf("El vagón está completo.\n");
-			break;
+				break;
 			}
 			/*Si el vagón no está lleno*/
 			else { 
@@ -81,6 +94,14 @@ void reserva_bool_prog_3(char *host, int row, int column){
 					scanf ("%d", &row);
 					printf("Número de columna: ");
 					scanf ("%d", &column);
+					if (row> 10 || row < 1 ){
+						printf ("Error: Número de fila inválido \n");
+					}
+
+					/* Verificación de un valor válido para el número de columna*/
+					if (column > 4 || column < 1 ){
+						printf ("Error: Número de columna inválido\n");
+					}
 				}
 			}	
 		}
