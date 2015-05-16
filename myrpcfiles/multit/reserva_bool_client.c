@@ -7,9 +7,8 @@
 #include "reserva_bool.h"
 
 
-void
-reserva_bool_prog_3(char *host, int row, int column)
-{
+void reserva_bool_prog_3(char *host, int row, int column){
+
 	CLIENT *clnt;
 	enum clnt_stat retval_1;
 	int result_1;
@@ -31,8 +30,6 @@ reserva_bool_prog_3(char *host, int row, int column)
 #endif	/* DEBUG */
 
 	result_3 = malloc(sizeof(char)*170);
-	seats_3_arg = malloc(sizeof(char)*170);
-	seats_3_arg = "HOLA";
 
 	while (1){
 		/* Verificación de un valor válido para el número de fila*/
@@ -62,7 +59,6 @@ reserva_bool_prog_3(char *host, int row, int column)
 		else {
 			printf("%s\n", "OCUPADO");
 			retval_3 = seats_3((void*)&seats_3_arg, &result_3, clnt);
-//			retval_3 = seats_3((void*)&seats_3_arg, &result_3, clnt);
 			
 			if (retval_3 != RPC_SUCCESS) {
 				clnt_perror (clnt, "call failed");
@@ -74,28 +70,26 @@ reserva_bool_prog_3(char *host, int row, int column)
 			/*Si el vagón no está lleno*/
 			else { 
 				printf("Puesto ocupado\nPuestos disponibles:\n%s\n", result_3);
-				printf("Número de fila: ");
-				scanf ("%d", &row);
-				printf("Número de columna: ");
-				scanf ("%d", &column);
-			}
-		//retval_2 = available_3(&make_reservation_3_arg, &result_2, clnt);
-	
+				row = -1;
+				column = -1; 
+				while (!(row > 0 && row < 11 && column > 0 && column < 5)){
+					printf("Número de fila: ");
+					scanf ("%d", &row);
+					printf("Número de columna: ");
+					scanf ("%d", &column);
+				}
+			}	
 		}
-		//if (retval_2 != RPC_SUCCESS) {
-		//	clnt_perror (clnt, "call failed");
-		//}
 	}
 
 #ifndef	DEBUG
 	clnt_destroy (clnt);
+	free(result_3);
+
 #endif	 /* DEBUG */
 }
 
-
-int
-main (int argc, char *argv[])
-{
+int main (int argc, char *argv[]){
 	char *host;
 	int row, column;
 
