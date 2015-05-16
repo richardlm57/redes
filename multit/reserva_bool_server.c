@@ -26,7 +26,7 @@ make_reservation_3_svc(seat *myseat, int *result, struct svc_req *rqstp)
 		retval = 1;
 		*result = 0;
 	}
-
+	printf("Clientadress:%s\n", inet_ntoa(rqstp->rq_xprt->xp_raddr.sin_addr.s_addr));
 	return retval;
 }
 
