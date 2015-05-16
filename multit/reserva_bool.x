@@ -1,5 +1,12 @@
 /* 
  * reserva_bool.x 
+ *
+ * Autores: 
+ * Richard Lares. 11-10508
+ * Patricia Reinoso. 11-10851
+ *
+ * Este archivo contiene la especificación de la 
+ * funciones del servidor, será compilado por RPCGEN.
  */
 
 struct seat {
