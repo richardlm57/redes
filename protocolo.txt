@@ -1,0 +1,37 @@
+	1.- Servicio que proporciona el protocolo
+
+	Este protocolo de comunicaciones proporciona un servicio de reserva de boletos para el Sistema Ferroviario Nacional de
+	Venezuela que permite a sus clientes reservar algún asiento disponible de un vagón de algún tren de este Sistema.
+	Este servicio consiste en transmitir secuencias de caracteres entre equipos a través de sockets, estos strings
+	representan la solicitud de un asiento por parte de un cliente y la respuesta del servidor a esta solicitud.
+
+	2.- Suposiciones sobre el entorno donde se ejecuta el protocolo
+
+	El entorno consta de un servidor y varios clientes (máximo 100). Un cliente envía la solicitud de un asiento del vagón y espera la respuestas del servidor, el cual verifica el estado del asiento solicitado (disponible o no) y manda la respuesta a la solicitud. Estos mensajes son enviados a través de sockets como fue mencionado, especificando el puerto
+	y la dirección IP del equipo al cual se conectará. Esta comunicación podría fallar en la creación de los sockets, en la
+	asociación de direcciones, en la solicitud de conexión por parte del cliente, en la aceptación de la solicitud o 
+	durante las transmisiones de los mensajes; estas posibilidades son manejadas con funciones que atrapan estos errores.
+
+	3.-	Vocabulario de los mensajes utilizados en el protocolo
+
+	El protocolo consta de cuatro tipos de mensaje: la solicitud enviada por el cliente, y las respuestas enviadas por el
+	servidor que pueden ser de tres tipos: un mensaje de reserva satisfactoria, un mensaje de asiento ocupado, y un mensaje
+	de vagón completamente ocupado. En este protocolo se manejan errores, sin embargo no son transmitidos usando el
+	protocolo.	
+
+	4.- Formato de los mensajes del vocabulario del protocolo
+
+	El mensaje enviado por algún cliente consta de dos enteros, el primer entero representa la fila del asiento solicitado
+	y el segundo representa la columna del mismo. Los mensajes que envía el servidor inician con una secuencia de
+	caracteres que indica si el asiento fue "Reservado", está "Ocupado" o no se puede reservar ningún asiento por "Vagón
+	Completo"; en caso que la secuencia inicial del mensaje sea "Ocupado" el mensaje también tendrá después de este string
+	una lista con los números de las filas y las columnas (separadas por un espacio) de los asientos disponibles (entre 
+	una fila y columna habrá un \n).
+
+	5.- Reglas de procedimiento que controlan la consistencia del intercambio de mensajes.
+
+	Las reglas son sencillas puesto que el cliente envía su mensaje, el servidor la recibe y envía la respuesta, y termina
+	la conexión independientemente de cuál haya sido el mensaje recibido. Por parte del cliente, si el primer caracter del
+	mensaje recibido es 'O', el cliente solicitará una fila y columna por stdin pero esto no froma parte del protocolo
+	porque la transmisión ya había finalizado; de hecho, en estos casos se intenta establecer una nueva conexión con el
+	servidor para realizar la nueva solicitud.

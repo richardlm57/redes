@@ -96,7 +96,7 @@ int main(int argc, char *argv[]){
 	}
 
 	printf("Escuchando\n");
-	listen(socketfd,3);
+	listen(socketfd,100);
 
 	bzero((char *) &clientaddr, sizeof(clientaddr));
 	size=sizeof(clientaddr);
