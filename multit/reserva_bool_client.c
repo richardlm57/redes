@@ -50,7 +50,7 @@ void reserva_bool_prog_3(char *host, int row, int column){
 		retval_1 = make_reservation_3(&make_reservation_3_arg, &result_1, clnt);
 
 		if (retval_1 != RPC_SUCCESS) {
-			clnt_perror (clnt, "call failed");
+			clnt_perror (clnt, "Llamada fallida");
 		}
 		else if (result_1 == 1){
 			printf("El puesto fila %d columna %d ha sido reservado\n", make_reservation_3_arg.row, make_reservation_3_arg.column);
@@ -61,7 +61,7 @@ void reserva_bool_prog_3(char *host, int row, int column){
 			retval_3 = seats_3((void*)&seats_3_arg, &result_3, clnt);
 			
 			if (retval_3 != RPC_SUCCESS) {
-				clnt_perror (clnt, "call failed");
+				clnt_perror (clnt, "Llamada fallida");
 			}
 			if (strcmp(result_3,"") == 0){
 				printf("El vagón está completo.\n");

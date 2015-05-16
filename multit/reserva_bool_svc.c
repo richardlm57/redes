@@ -69,11 +69,11 @@ reserva_bool_prog_3(struct svc_req *rqstp, register SVCXPRT *transp)
 		svcerr_systemerr (transp);
 	}
 	if (!svc_freeargs (transp, (xdrproc_t) _xdr_argument, (caddr_t) &argument)) {
-		fprintf (stderr, "%s", "unable to free arguments");
+		fprintf (stderr, "%s", "No se pudo liberar los argumentos");
 		exit (1);
 	}
 	if (!reserva_bool_prog_3_freeresult (transp, _xdr_result, (caddr_t) &result))
-		fprintf (stderr, "%s", "unable to free results");
+		fprintf (stderr, "%s", "No se puedo liberar las respuestas");
 
 	return;
 }
@@ -87,21 +87,21 @@ main (int argc, char **argv)
 
 	transp = svcudp_create(RPC_ANYSOCK);
 	if (transp == NULL) {
-		fprintf (stderr, "%s", "cannot create udp service.");
+		fprintf (stderr, "%s", "No se puede crear el servicio upd");
 		exit(1);
 	}
 	if (!svc_register(transp, RESERVA_BOOL_PROG, RESERVA_BOOL_VERS, reserva_bool_prog_3, IPPROTO_UDP)) {
-		fprintf (stderr, "%s", "unable to register (RESERVA_BOOL_PROG, RESERVA_BOOL_VERS, udp).");
+		fprintf (stderr, "%s", "No se pudo registrar (RESERVA_BOOL_PROG, RESERVA_BOOL_VERS, udp).");
 		exit(1);
 	}
 
 	transp = svctcp_create(RPC_ANYSOCK, 0, 0);
 	if (transp == NULL) {
-		fprintf (stderr, "%s", "cannot create tcp service.");
+		fprintf (stderr, "%s", "No se puede crear el servicio tcp.");
 		exit(1);
 	}
 	if (!svc_register(transp, RESERVA_BOOL_PROG, RESERVA_BOOL_VERS, reserva_bool_prog_3, IPPROTO_TCP)) {
-		fprintf (stderr, "%s", "unable to register (RESERVA_BOOL_PROG, RESERVA_BOOL_VERS, tcp).");
+		fprintf (stderr, "%s", "No se pudo registrar (RESERVA_BOOL_PROG, RESERVA_BOOL_VERS, tcp).");
 		exit(1);
 	}
 
