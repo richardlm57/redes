@@ -1,0 +1,71 @@
+Miniproyecto 1.
+
+Autores:
+Richard Lares. 11-10508.
+Patricia Reinoso. 11-10851.
+
+Lares_Reinoso_Sockets.tar.gz
+
+Está compuesto por los archivos: 
+
+
+
+Se ejecuta:
+
+
+
+Lares_Reinoso_RPC.tar.gz
+
+
+Está compuesto por los archivos: 
+
+Makefile.reserva_bool : contiene los archivos comandos necesarios compilar los 
+archivo necesarios para su ejecución.
+
+reserva_bool_client.c : implementacion de código para el cliente, especifica
+cuándo se hacen las llamadas al servidor.
+
+reserva_bool_clnt.c : stub de comunicaciones del lado del cliente.
+
+reserva_bool.h : contiene declaraciones de constantes y tipos, y los encabezados de 
+las funciones.
+
+reserva_bool_server.c : implementación de las funciones que se ejecutan en el
+servidor.
+
+reserva_bool_svc.c : stub de comunicaciones del lado del servidor.
+
+reserva_bool.x : especificación de las funciones del servidor, que luego al
+compilarlo con RPCGEN, generará los archivos para el cliente y el servidor.
+
+reserva_bool_xdr.c : rutinas XDR para codificar los argumentos.
+
+Para su ejecución:
+
+Primero se deben compilar los archivos, para ello se ejecuta:
+
+"make -f Makefile.reserva_bool"
+
+Para su ejecución es necesario el demonio "portmapper/rpcbind", en caso
+de no tenerlo instalado, ejecutar la orden:
+
+"apt-get install portmap"
+
+Luego se debe activar el demonio en background como superusuario:
+
+"sudo rpcbind &"
+
+En modo privilegiado y en background se ejecuta el código del servicio remoto.
+
+"sudo ./reserva_bool_server &"
+
+Con esto, ya el servido remoto debe estar listo para su uso, si se quiere comprobar,
+se puede ejecutar "echo $?"y se debería obtener un "0"como respuesta.
+
+Ahora solo queda ejecutar el cliente:
+
+"sudo ./reserva_bool_client <dir_ip_servidor> -f <número de fila> -c <número de columna>"
+
+Donde dir_ip_servidor es la dirección IP del servidor y el valor de número de fila 
+debe ser un entero entre 1 y 10 (ambos incluidos), y número de columna debe ser 
+un entero entre 1 y 4 (ambos incluidos).
