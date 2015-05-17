@@ -43,7 +43,7 @@ make_reservation_3_svc(seat *myseat, int *result, struct svc_req *rqstp)
 	if (train[myseat->row - 1][myseat->column -1] == 0){
 		train[myseat->row - 1][myseat->column - 1] = 1;
 		
-		fprintf(f,"[%s] [error] [cliente %hu.%hu.%hu.%hu]: Puesto: Fila %d, Columna %d reservado.\n", 
+		fprintf(f,"[%s] [error] [cliente %hu.%hu.%hu.%hu]: Puesto fila %d, columna %d reservado.\n", 
 	   	token, SPLIT_S_ADDR_INTO_BYTES(ntohl(rqstp->rq_xprt->xp_raddr.sin_addr.s_addr)),
 	   	myseat->row, myseat->column);
 
@@ -52,7 +52,7 @@ make_reservation_3_svc(seat *myseat, int *result, struct svc_req *rqstp)
 	}
 	else{
 
-		fprintf(f,"[%s] [error] [cliente %hu.%hu.%hu.%hu]: Puesto: Fila %d, Columna %d ocupado.\n", 
+		fprintf(f,"[%s] [error] [cliente %hu.%hu.%hu.%hu]: Puesto fila %d, columna %d ocupado.\n", 
 	   	token, SPLIT_S_ADDR_INTO_BYTES(ntohl(rqstp->rq_xprt->xp_raddr.sin_addr.s_addr)),
 	   	myseat->row, myseat->column);
 
