@@ -54,6 +54,8 @@ void* servicio(void *speak){
 		}
 		printf("\n");
 	}
+	printf("\n");
+	close(sock);
 	free(speak);
 	speak=NULL;
 }
@@ -119,5 +121,6 @@ int main(int argc, char *argv[]){
 			exit(-1);
 		}
 	}
+	close(socketfd);
 	exit(0);
 }
