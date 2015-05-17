@@ -3,3 +3,21 @@
 [Sat May 16 22:03:43 2015] [error] [cliente 127.0.0.1]: Reservación del puesto: Fila 2, Columna 3.
 [Sat May 16 22:03:45 2015] [error] [cliente 127.0.0.1]: Reservación del puesto: Fila 2, Columna 4.
 [Sat May 16 22:06:42 2015] [error] [cliente 127.0.0.1]: Reservación del puesto: Fila 10, Columna 4.
+[Sat May 16 22:19:30 2015] [error] [cliente 127.0.0.1]: Puesto: Fila 10, Columna 4 reservado.
+[Sat May 16 22:19:49 2015] [error] [cliente 127.0.0.1]: Puesto: Fila 10, Columna 4 ocupado.
+[Sat May 16 22:19:53 2015] [error] [cliente 127.0.0.1]: Puesto: Fila 1, Columna 2 reservado.
+[Sat May 16 22:29:23 2015] [error] [cliente 127.0.0.1]: Puesto: Fila 10, Columna 4 reservado.
+[Sat May 16 22:29:35 2015] [error] [cliente 127.0.0.1]: Puesto: Fila 1, Columna 2 reservado.
+[Sat May 16 22:29:37 2015] [error] [cliente 127.0.0.1]: Puesto: Fila 1, Columna 2 ocupado.
+[Sat May 16 22:29:46 2015] [error] [cliente 127.0.0.1]: Puesto: Fila 1, Columna 2 ocupado.
+[Sat May 16 22:29:49 2015] [error] [cliente 127.0.0.1]: Puesto: Fila 1, Columna 3 reservado.
+[Sat May 16 22:31:11 2015] [error] [cliente 127.0.0.1]: Puesto: Fila 1, Columna 2 reservado.
+[Sat May 16 22:31:13 2015] [error] [cliente 127.0.0.1]: Puesto: Fila 1, Columna 2 ocupado.
+[(null)] [error] [cliente 127.0.0.1]: Lista de puestos disponibles.
+[Sat May 16 22:31:29 2015] [error] [cliente 127.0.0.1]: Puesto: Fila 1, Columna 2 ocupado.
+[(null)] [error] [cliente 127.0.0.1]: Lista de puestos disponibles.
+[Sat May 16 22:31:32 2015] [error] [cliente 127.0.0.1]: Puesto: Fila 3, Columna 1 reservado.
+[Sat May 16 22:32:35 2015] [error] [cliente 127.0.0.1]: Puesto: Fila 1, Columna 2 reservado.
+[Sat May 16 22:32:37 2015] [error] [cliente 127.0.0.1]: Puesto: Fila 1, Columna 2 ocupado.
+[Sat May 16 22:32:37 2015] [error] [cliente 127.0.0.1]: Lista de puestos disponibles.
+[Sat May 16 22:32:40 2015] [error] [cliente 127.0.0.1]: Puesto: Fila 2, Columna 3 reservado.
