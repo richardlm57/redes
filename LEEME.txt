@@ -4,18 +4,53 @@ Autores:
 Richard Lares. 11-10508.
 Patricia Reinoso. 11-10851.
 
+
 Lares_Reinoso_Sockets.tar.gz
 
 Está compuesto por los archivos: 
 
+makefile: Ejecuta los comandos necesarios para compilar los archivos 
+fuente y generar los ejecutables para el servidor y cliente.
 
+reserva_bol_ser.c: Contiene la implementación del servidor del sistema
+de reserva de boletos, el cual reservará asientos dependiendo de las
+solicitudes de los clientes usando sockets.
+
+reserva_bol_ser.h: Contiene las librerías que el servidor debe importar
+para ofrecer el servicio.
+
+reserva_bol_cli.c: Contiene la implementación del cliente del sistema
+de reserva de boletos, el cual solicitará al servidor un asiento indicando
+la fila y la columna del mismo usando sockets.
+
+reserva_bol_cli.h: Contiene las librerías necesarias para que el cliente
+pueda realizar peticiones al servidor.
 
 Se ejecuta:
+
+Para compilar los archivos:
+
+$> make
+
+En caso de limpiar los .o (opcional):
+
+$> make clean
+
+Para ejecutar el servidor:
+
+$> ./reserva_bol_ser -f <num_1-10> -c <num_1-4> -p <puerto_servicio> &
+
+Para ejecutar el cliente:
+
+$> ./reserva_bol_cli <dir_IP_servidor> -p <puerto_servicio> -f <fila_asiento> -c <columna_asiento> 
+
+Donde <puerto_servicio> es el puerto que será usado para el servicio, <dir_IP_servidor> es la dirección IP
+del servidor, <fila_asiento> es la fila del asiento que se desea reserva (entre 1 y 10) y <columna_asiento>
+es la columna del asiento que se desea reservar (entre 1 y 4).
 
 
 
 Lares_Reinoso_RPC.tar.gz
-
 
 Está compuesto por los archivos: 
 
