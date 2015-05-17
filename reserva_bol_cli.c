@@ -11,7 +11,7 @@ int main(int argc, char *argv[]){
 	int i=0;
 	struct sockaddr_in serveraddr;
 	//struct hostent* server;
-	int done=0;
+	int done=1;
 	int row=0;
 	int column=0;
 	char buffer[256];
@@ -31,7 +31,6 @@ int main(int argc, char *argv[]){
 	buffer[0]=atoi(argv[5]);
 	buffer[1]=atoi(argv[7]);
 
-	/*
 	if ((socketfd = socket(AF_INET, SOCK_STREAM, 0)) < 0){
 		perror("Error en socket()\n");
 		exit(-1);
@@ -41,7 +40,7 @@ int main(int argc, char *argv[]){
 	if ((server = gethostbyname("localhost")) == NULL) {
 		perror("Error localizando el servidor\n");
 		exit(-1);
-	}
+	}*/
 
 	
 
@@ -71,56 +70,61 @@ int main(int argc, char *argv[]){
 		exit(1);
 	}
 
-	printf("%s\n",buffer);*/
+	printf("%s\n",buffer);
+
+	if (buffer[0]=='O'){
+		done=0;
+	}
 
 	while (!(done)){
 		done=1;
-		if ((socketfd = socket(AF_INET, SOCK_STREAM, 0)) < 0){
-			perror("Error en socket()\n");
-			exit(-1);
+		//Input
+		bzero(buffer,256);
+		printf("Introduce fila: \n");
+		scanf("%d", &row);
+		printf("Introduce columna: \n");
+		scanf("%d", &column);
+		buffer[0]=row;
+		buffer[1]=column;
+		if ((row > 10) || (row < 1) || (column > 4) || (column < 1)){
+			printf("Error en argumentos\n");
+			done=0;
 		}
-		while (i<3){
-			printf("%d\n",i);
-			if (connect(socketfd, (struct sockaddr*)&serveraddr, sizeof(serveraddr)) >= 0){
-				break;
-			}
-			if (i==2){
-				perror("Se ha agotado el tiempo de espera");
+		else{
+			if ((socketfd = socket(AF_INET, SOCK_STREAM, 0)) < 0){
+				perror("Error en socket()\n");
 				exit(-1);
 			}
-			i++;
-			sleep(2);
-		}
-
-		//Escribir al servidor   
-		if (write(socketfd, buffer, strlen(buffer)) < 0){
-			perror("Error en write()\n");
-			exit(-1);
-		}
-
-		bzero(buffer,256);
-
-		//Lectura del servidor  
-		if (read(socketfd, buffer, 255)< 0){
-			perror("Error en read()\n");
-			exit(1);
-		}
-
-		printf("%s\n",buffer);
-
-		if (buffer[0]=='O'){
-			done=0;
-			bzero(buffer,256);
-			while ((row > 10) || (row < 1) || (column > 4) || (column < 1)){
-				printf("Introduce fila: \n");
-				scanf("%d", &row);
-				printf("Introduce columna: \n");
-				scanf("%d", &column);
-				buffer[0]=row;
-				buffer[1]=column;
-				if ((row > 10) || (row < 1) || (column > 4) || (column < 1)){
-					printf("Error en argumentos\n");
+			while (i<3){
+				//printf("%d\n",i);
+				if (connect(socketfd, (struct sockaddr*)&serveraddr, sizeof(serveraddr)) >= 0){
+					break;
 				}
+				if (i==2){
+					perror("Se ha agotado el tiempo de espera");
+					exit(-1);
+				}
+				i++;
+			}
+
+			//Escribir al servidor   
+			if (write(socketfd, buffer, strlen(buffer)) < 0){
+				perror("Error en write()\n");
+				exit(-1);
+			}
+
+			bzero(buffer,256);
+
+			//Lectura del servidor  
+			if (read(socketfd, buffer, 255)< 0){
+				perror("Error en read()\n");
+				exit(1);
+			}
+
+			printf("%s\n",buffer);
+
+			if (buffer[0]=='O'){
+				done=0;
 			}
 		}
 	}
