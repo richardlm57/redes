@@ -41,11 +41,12 @@ int main(int argc, char *argv[]){
 		if (connect(socketfd, (struct sockaddr*)&serveraddr, sizeof(serveraddr)) >= 0){
 			break;
 		}
-		if (i==3){
+		if (i==2){
 			perror("Se ha agotado el tiempo de espera");
 			exit(-1);
 		}
 		i++;
+		//sleep(2);
 	}
 
 	//Input
@@ -88,7 +89,9 @@ int main(int argc, char *argv[]){
 			done=0;
 		}
 		else{
+			/*
 			while (i<3){
+				printf("%d\n",i);
 				if (connect(socketfd, (struct sockaddr*)&serveraddr, sizeof(serveraddr)) >= 0){
 					break;
 				}
@@ -97,7 +100,7 @@ int main(int argc, char *argv[]){
 					exit(-1);
 				}
 				i++;
-			}
+			}*/
 
 			//Escribir al servidor   
 			if (write(socketfd, buffer, strlen(buffer)) < 0){

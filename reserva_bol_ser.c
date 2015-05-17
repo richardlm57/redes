@@ -8,7 +8,7 @@ void* servicio(void *speak){
 	int read_size;
 	char buffer[170];
 	char message[170];
-	char temp[1];
+	char temp[6];
 	int i,j;
 	while( read(sock,buffer,170) ){
 		printf("%d%d\n",buffer[0],buffer[1]);
@@ -26,12 +26,8 @@ void* servicio(void *speak){
 			for (i=0;i<10;i++){
 				for (j=0;j<4;j++){
 					if (train[i][j]==0){
-						sprintf(temp,"%d",i+1);
+						sprintf(temp,"%d %d\n",i+1,j+1);
 						strcat(buffer,temp);
-						strcat(buffer," ");
-						sprintf(temp,"%d",j+1);
-						strcat(buffer,temp);
-						strcat(buffer,"\n");
 					}
 				}
 			}
@@ -59,6 +55,7 @@ void* servicio(void *speak){
 		printf("\n");
 	}
 	free(speak);
+	speak=NULL;
 }
 
 int main(int argc, char *argv[]){
