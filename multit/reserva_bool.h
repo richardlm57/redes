@@ -14,6 +14,7 @@
 #include <rpc/rpc.h>
 
 #include <pthread.h>
+#include <time.h>
 
 #ifdef __cplusplus
 extern "C" {

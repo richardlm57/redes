@@ -9,6 +9,12 @@
  */
 
 #include "reserva_bool.h"
+ #define SPLIT_S_ADDR_INTO_BYTES( \
+    s_addr) \
+    ((s_addr) >> 24) & 0xFF, \
+    ((s_addr) >> 16) & 0xFF, \
+    ((s_addr) >>  8) & 0xFF, \
+    ((s_addr)      ) & 0xFF
 
 int train[10][4] = {{0}};
 
@@ -26,9 +32,34 @@ make_reservation_3_svc(seat *myseat, int *result, struct svc_req *rqstp)
 		retval = 1;
 		*result = 0;
 	}
-	printf("Clientadress:%s\n", inet_ntoa(rqstp->rq_xprt->xp_raddr.sin_addr.s_addr));
+	
+	//printf("Clientadress:%s\n", inet_ntoa(rqstp->rq_xprt->xp_raddr.sin_addr.s_addr));
+	FILE *f = fopen("log-server", "a");
+	if (f == NULL)
+	{
+	    printf("Error opening file!\n");
+	    exit(1);
+	}	
+
+	time_t rawtime;
+	struct tm *info;
+	char buffer[80];
+	char *token;
+
+	time( &rawtime );
+
+	info = localtime( &rawtime );
+	strcpy(buffer,asctime(info));
+	token = strtok(buffer, "\n");
+
+   	fprintf(f,"[%s] [error] [cliente %hu.%hu.%hu.%hu]: Reservación del puesto: Fila %d, Columna %d.\n", 
+   	token, SPLIT_S_ADDR_INTO_BYTES(ntohl(rqstp->rq_xprt->xp_raddr.sin_addr.s_addr)),
+   	myseat->row, myseat->column);
+
+	fclose(f);
 	return retval;
 }
+
 
 bool_t
 available_3_svc(seat *myseat, int *result, struct svc_req *rqstp)

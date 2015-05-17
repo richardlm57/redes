@@ -1,0 +1,5 @@
+[Sat May 16 22:03:33 2015] [error] [cliente 127.0.0.1]: Reservación del puesto: Fila 2, Columna 1.
+[Sat May 16 22:03:41 2015] [error] [cliente 127.0.0.1]: Reservación del puesto: Fila 2, Columna 2.
+[Sat May 16 22:03:43 2015] [error] [cliente 127.0.0.1]: Reservación del puesto: Fila 2, Columna 3.
+[Sat May 16 22:03:45 2015] [error] [cliente 127.0.0.1]: Reservación del puesto: Fila 2, Columna 4.
+[Sat May 16 22:06:42 2015] [error] [cliente 127.0.0.1]: Reservación del puesto: Fila 10, Columna 4.
