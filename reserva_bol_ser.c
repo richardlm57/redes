@@ -3,19 +3,40 @@
 int train[10][4]={{0}};
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
-void* servicio(void *speak){
-	int sock = *(int*)speak;
+void* servicio(void *p){
+	int sock = ((param*)p)->speak;
 	int read_size;
 	char buffer[170];
 	char message[170];
 	char temp[6];
-	int i,j;
+	int i,j,row,column;
+	
+	time_t rawtime;
+	struct tm *info;
+	char date[80];
+	char *token;
+
+	time( &rawtime );
+	info = localtime( &rawtime );
+	strcpy(date,asctime(info));
+	token = strtok(date, "\n");
+
+	FILE *f = fopen("log-server", "a");
+	if (f == NULL){
+	    perror("Error al abrir el archivo\n");
+	}
+
 	while( read(sock,buffer,170) ){
+		row=buffer[0];
+		column=buffer[1];
 		printf("%d%d\n",buffer[0],buffer[1]);
 		if (train[buffer[0]-1][buffer[1]-1]==0){
 			pthread_mutex_lock(&mutex);
 			train[buffer[0]-1][buffer[1]-1]=1;
 			pthread_mutex_unlock(&mutex);
+			fprintf(f,"[%s] [respuesta] [cliente %s]: Puesto fila %d columna %d reservado.\n",
+			token, ((param*)p)->ip,row,column);
+			fclose(f);
 			if (write(sock,"Reservado",9) < 0){
 				perror("Error en write()\n");
 				exit(-1);
@@ -31,14 +52,18 @@ void* servicio(void *speak){
 					}
 				}
 			}
-			printf("%s\n",buffer);
 			if ((strcmp(buffer,"")==0)){
+				fprintf(f,"[%s] [respuesta] [cliente %s]: Vagón completo.\n",token, ((param*)p)->ip);
+				fclose(f);
 				if (write(sock,"Vagón completo",15) < 0){
 					perror("Error en write()\n");
 					exit(-1);
 				}
 			}
 			else{
+				fprintf(f,"[%s] [respuesta] [cliente %s]: Puesto fila %d columna %d ocupado.\n",
+				token, ((param*)p)->ip,row,column);				
+				fclose(f);
 				strcpy(message,"Ocupado\n");
 				strcat(message,buffer);
 				if (write(sock,message,strlen(message)) < 0){
@@ -56,8 +81,8 @@ void* servicio(void *speak){
 	}
 	printf("\n");
 	close(sock);
-	free(speak);
-	speak=NULL;
+	free(p);
+	p=NULL;
 }
 
 int main(int argc, char *argv[]){
@@ -67,15 +92,12 @@ int main(int argc, char *argv[]){
 		exit(-1);
 	}
 
-	int socketfd, accepted, *speak;
+	int socketfd, accepted;
 	int localport=atoi(argv[6]);
 	int i,j;
 	struct sockaddr_in serveraddr, clientaddr;
 	socklen_t size;
 	struct hostent* localhost = gethostbyname("localhost");
-	/* Esta parte no la entiendo mucho, ni aqui ni en el cliente
-	int localhostaddress;
-    memcpy( &localhostaddress, localhost->h_addr, localhost->h_length );*/
 	bzero((char *) &serveraddr, sizeof(serveraddr));
 	printf("Creando socket\n");
 	if ((socketfd=socket(AF_INET, SOCK_STREAM, 0)) < 0 ) {  
@@ -113,10 +135,13 @@ int main(int argc, char *argv[]){
 		}
 		printf("Entre\n");
 		pthread_t t;
-		speak=(int *)malloc(sizeof(int));
-		*speak=accepted;
-		
-		if (pthread_create(&t,NULL,servicio,(void *)speak)){
+
+		param *p;
+		p=NULL;
+		p = (param*)calloc(1,sizeof(param));
+		p->speak=accepted;
+		p->ip=inet_ntoa(clientaddr.sin_addr);
+		if (pthread_create(&t,NULL,servicio,(void *)p)){
 			perror("pthread_create");
 			exit(-1);
 		}

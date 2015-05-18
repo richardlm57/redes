@@ -10,7 +10,6 @@ int main(int argc, char *argv[]){
 	int socketfd;
 	int i=0;
 	struct sockaddr_in serveraddr;
-	//struct hostent* server;
 	int done=1;
 	int row=0;
 	int column=0;
@@ -21,8 +20,6 @@ int main(int argc, char *argv[]){
 	bzero((char *) &serveraddr, sizeof(serveraddr));
 
 	serveraddr.sin_family = AF_INET;
-	/*bcopy((char *)&server->h_addr, (char *)&serveraddr.sin_addr.s_addr, server->h_length);
-	printf("%d\n",serveraddr.sin_addr.s_addr);*/
 	serveraddr.sin_addr.s_addr=inet_addr(argv[1]);
 	serveraddr.sin_port = htons(localport);
 
@@ -36,14 +33,6 @@ int main(int argc, char *argv[]){
 		exit(-1);
 	}
 
-	/*
-	if ((server = gethostbyname("localhost")) == NULL) {
-		perror("Error localizando el servidor\n");
-		exit(-1);
-	}*/
-
-	
-
 	while (i<3){
 		if (connect(socketfd, (struct sockaddr*)&serveraddr, sizeof(serveraddr)) >= 0){
 			break;
@@ -53,7 +42,6 @@ int main(int argc, char *argv[]){
 			exit(-1);
 		}
 		i++;
-		//sleep(2);
 	}
 
 	//Escribir al servidor   
@@ -78,7 +66,6 @@ int main(int argc, char *argv[]){
 
 	while (!(done)){
 		done=1;
-		//Input
 		bzero(buffer,256);
 		printf("Introduce fila: \n");
 		scanf("%d", &row);
@@ -96,7 +83,6 @@ int main(int argc, char *argv[]){
 				exit(-1);
 			}
 			while (i<3){
-				//printf("%d\n",i);
 				if (connect(socketfd, (struct sockaddr*)&serveraddr, sizeof(serveraddr)) >= 0){
 					break;
 				}

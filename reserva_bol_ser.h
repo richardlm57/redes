@@ -15,4 +15,9 @@
 	#include <stddef.h>
 	#include <unistd.h>
 
+typedef struct{
+	int speak;
+	char *ip;
+} param;
+
 #endif
