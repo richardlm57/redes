@@ -85,11 +85,11 @@ available_3_svc(seat *myseat, int *result, struct svc_req *rqstp)
 bool_t
 seats_3_svc(void *argp, char **result, struct svc_req *rqstp)
 {
-	bool_t retval;
-	int i,j;
-	char buffer[170];
-	char temp[4];
-	strcpy(buffer,"");
+	bool_t retval; 			// Variable de retorno
+	int i,j;				// Iteradores
+	char buffer[170];		// Almacena temporalmente la lista de puestos
+	char temp[4];			// Almacena temporalmente el puesto
+			
 
 	time_t rawtime;
 	struct tm *info;
@@ -101,6 +101,7 @@ seats_3_svc(void *argp, char **result, struct svc_req *rqstp)
 	info = localtime( &rawtime );
 	strcpy(buffer2,asctime(info));
 	token = strtok(buffer2, "\n");
+	strcpy(buffer,"");
 
 	FILE *f = fopen("log-server", "a");
 	if (f == NULL){
