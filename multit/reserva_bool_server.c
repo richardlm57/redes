@@ -16,16 +16,16 @@
     ((s_addr) >>  8) & 0xFF, \
     ((s_addr)      ) & 0xFF
 
-int train[10][4] = {{0}};
+int train[10][4] = {{0}};		// Representa el vagón de tren
 
 bool_t
 make_reservation_3_svc(seat *myseat, int *result, struct svc_req *rqstp)
 {
-	bool_t retval;
-	time_t rawtime;
-	struct tm *info;
-	char buffer[80];
-	char *token;
+	bool_t retval;			// variable de retorno
+	time_t rawtime;			// estructura del tiempo
+	struct tm *info;		// estructura del tiempo
+	char buffer[80];		// mensaje a imprimir en los logs
+	char *token;			// para eliminar el \n al final de un string
 
 	time( &rawtime );
 
@@ -44,7 +44,8 @@ make_reservation_3_svc(seat *myseat, int *result, struct svc_req *rqstp)
 		train[myseat->row - 1][myseat->column - 1] = 1;
 		
 		fprintf(f,"[%s] [respuesta] [cliente %hu.%hu.%hu.%hu]: Puesto fila %d, columna %d reservado.\n", 
-	   	token, SPLIT_S_ADDR_INTO_BYTES(ntohl(rqstp->rq_xprt->xp_raddr.sin_addr.s_addr)),
+	   	token, SPLIT_S_ADDR_INTO_BYTES(
+	   		ntohl(rqstp->rq_xprt->xp_raddr.sin_addr.s_addr)),
 	   	myseat->row, myseat->column);
 
 		retval = 1;
@@ -53,7 +54,8 @@ make_reservation_3_svc(seat *myseat, int *result, struct svc_req *rqstp)
 	else{
 
 		fprintf(f,"[%s] [respuesta] [cliente %hu.%hu.%hu.%hu]: Puesto fila %d, columna %d ocupado.\n", 
-	   	token, SPLIT_S_ADDR_INTO_BYTES(ntohl(rqstp->rq_xprt->xp_raddr.sin_addr.s_addr)),
+	   	token, SPLIT_S_ADDR_INTO_BYTES(
+	   		ntohl(rqstp->rq_xprt->xp_raddr.sin_addr.s_addr)),
 	   	myseat->row, myseat->column);
 
 		retval = 1;
@@ -64,24 +66,6 @@ make_reservation_3_svc(seat *myseat, int *result, struct svc_req *rqstp)
 	return retval;
 }
 
-
-bool_t
-available_3_svc(seat *myseat, int *result, struct svc_req *rqstp)
-{
-	bool_t retval;
-
-	if (train[myseat->row - 1][myseat->column -1] == 0){
-		retval = 1;
-		*result = 1;
-	}
-	else{
-		retval = 1;
-		*result = 0;
-	}
-
-	return retval;
-}
-
 bool_t
 seats_3_svc(void *argp, char **result, struct svc_req *rqstp)
 {
@@ -89,12 +73,10 @@ seats_3_svc(void *argp, char **result, struct svc_req *rqstp)
 	int i,j;				// Iteradores
 	char buffer[170];		// Almacena temporalmente la lista de puestos
 	char temp[4];			// Almacena temporalmente el puesto
-			
-
-	time_t rawtime;
-	struct tm *info;
-	char buffer2[80];
-	char *token;
+	time_t rawtime;			// Estructura de tiempo
+	struct tm *info;		// Estructura de tiempo
+	char buffer2[80];		// Almacena el mensaje de logs
+	char *token;			// Para eliminar el \n al final de un string
 
 	time( &rawtime );
 
@@ -124,12 +106,14 @@ seats_3_svc(void *argp, char **result, struct svc_req *rqstp)
 	retval = 1;
 
 	if (strcmp(*result,"") == 0){
-		fprintf(f,"[%s] [respuesta] [cliente %hu.%hu.%hu.%hu]: Vagón completo.\n", 
-		   	token, SPLIT_S_ADDR_INTO_BYTES(ntohl(rqstp->rq_xprt->xp_raddr.sin_addr.s_addr)));
+		fprintf(f,"[%s] [respuesta] [cliente %hu.%hu.%hu.%hu]: Vagón completo.\n",
+		 token, SPLIT_S_ADDR_INTO_BYTES(
+		   		ntohl(rqstp->rq_xprt->xp_raddr.sin_addr.s_addr)));
 	}
 	else{
 		fprintf(f,"[%s] [respuesta] [cliente %hu.%hu.%hu.%hu]: Lista de puestos disponibles.\n", 
-		   	token, SPLIT_S_ADDR_INTO_BYTES(ntohl(rqstp->rq_xprt->xp_raddr.sin_addr.s_addr)));
+			token, SPLIT_S_ADDR_INTO_BYTES(
+		   		ntohl(rqstp->rq_xprt->xp_raddr.sin_addr.s_addr)));
 
 	}
 	fclose(f);
@@ -137,13 +121,10 @@ seats_3_svc(void *argp, char **result, struct svc_req *rqstp)
 }
 
 int
-reserva_bool_prog_3_freeresult (SVCXPRT *transp, xdrproc_t xdr_result, caddr_t result)
+reserva_bool_prog_3_freeresult (SVCXPRT *transp, xdrproc_t xdr_result, 
+								caddr_t result)
 {
 	//xdr_free (xdr_result, result);
-
-	/*
-	 * Insert additional freeing code here, if needed
-	 */
 
 	return 1;
 }

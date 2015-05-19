@@ -34,9 +34,9 @@ typedef struct seat seat;
 #define MAKE_RESERVATION 1
 extern  enum clnt_stat make_reservation_3(seat *, int *, CLIENT *);
 extern  bool_t make_reservation_3_svc(seat *, int *, struct svc_req *);
-#define AVAILABLE 2
-extern  enum clnt_stat available_3(seat *, int *, CLIENT *);
-extern  bool_t available_3_svc(seat *, int *, struct svc_req *);
+//#define AVAILABLE 2
+//extern  enum clnt_stat available_3(seat *, int *, CLIENT *);
+//extern  bool_t available_3_svc(seat *, int *, struct svc_req *);
 #define SEATS 3
 extern  enum clnt_stat seats_3(void *, char **, CLIENT *);
 extern  bool_t seats_3_svc(void *, char **, struct svc_req *);
@@ -46,9 +46,9 @@ extern int reserva_bool_prog_3_freeresult (SVCXPRT *, xdrproc_t, caddr_t);
 #define MAKE_RESERVATION 1
 extern  enum clnt_stat make_reservation_3();
 extern  bool_t make_reservation_3_svc();
-#define AVAILABLE 2
-extern  enum clnt_stat available_3();
-extern  bool_t available_3_svc();
+//#define AVAILABLE 2
+//extern  enum clnt_stat available_3();
+//extern  bool_t available_3_svc();
 #define SEATS 3
 extern  enum clnt_stat seats_3();
 extern  bool_t seats_3_svc();

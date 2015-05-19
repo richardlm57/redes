@@ -48,12 +48,12 @@ reserva_bool_prog_3(struct svc_req *rqstp, register SVCXPRT *transp)
 		local = (bool_t (*) (char *, void *,  struct svc_req *))make_reservation_3_svc;
 		break;
 
-	case AVAILABLE:
-		_xdr_argument = (xdrproc_t) xdr_seat;
-		_xdr_result = (xdrproc_t) xdr_int;
-		local = (bool_t (*) (char *, void *,  struct svc_req *))available_3_svc;
-		break;
-
+	/*//case AVAILABLE:
+	//	_xdr_argument = (xdrproc_t) xdr_seat;
+	//	_xdr_result = (xdrproc_t) xdr_int;
+	//	local = (bool_t (*) (char *, void *,  struct svc_req *))available_3_svc;
+	//	break;
+*/
 	case SEATS:
 		_xdr_argument = (xdrproc_t) xdr_void;
 		_xdr_result = (xdrproc_t) xdr_wrapstring;

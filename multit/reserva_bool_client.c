@@ -13,17 +13,14 @@
 
 void reserva_bool_prog_3(char *host, int row, int column){
 
-	CLIENT *clnt;
-	enum clnt_stat retval_1;
-	int result_1;
-	seat  make_reservation_3_arg;
-	enum clnt_stat retval_2;
-	int result_2;
-	seat  available_3_arg;
-	enum clnt_stat retval_3;
-	char *result_3;
-	char *seats_3_arg;
-	int i;
+	CLIENT *clnt;					// Cliente
+	enum clnt_stat retval_1;		// retorno de la función make_reservation
+	int result_1;					// indica si el puesto está disponible o no
+	seat  make_reservation_3_arg;	// asiento a verificar si está disponible
+	enum clnt_stat retval_3;		// retorno de la función seats
+	char *result_3;					// lista de puestos disponibles
+	char *seats_3_arg;				// argumento del procedimiento  seats
+	int i;							// iterador
 
 
 #ifndef	DEBUG
@@ -69,7 +66,8 @@ void reserva_bool_prog_3(char *host, int row, int column){
 		}
 
 		if (result_1 == 1){
-			printf("El puesto fila %d columna %d ha sido reservado\n", make_reservation_3_arg.row, make_reservation_3_arg.column);
+			printf("El puesto fila %d columna %d ha sido reservado\n", 
+				make_reservation_3_arg.row, make_reservation_3_arg.column);
 			break;
 		}
 		else if (result_1 == 0) {
@@ -98,7 +96,7 @@ void reserva_bool_prog_3(char *host, int row, int column){
 						printf ("Error: Número de fila inválido \n");
 					}
 
-					/* Verificación de un valor válido para el número de columna*/
+					/* Verificación de valor válido para el número de columna*/
 					if (column > 4 || column < 1 ){
 						printf ("Error: Número de columna inválido\n");
 					}
@@ -115,11 +113,12 @@ void reserva_bool_prog_3(char *host, int row, int column){
 }
 
 int main (int argc, char *argv[]){
-	char *host;
-	int row, column;
+	char *host;			// direccion ip del servidor
+	int row, column;	// fila y columna del puesto
 
 	/* Verificación de los argumentos de entrada*/ 
-	if ((argc != 6) ||(strcmp(argv[2],"-f") != 0)  || (strcmp(argv[4],"-c") != 0)){
+	if ((argc != 6) ||(strcmp(argv[2],"-f") != 0)  || 
+		(strcmp(argv[4],"-c") != 0)){
 		printf ("Error en los argumentos de entrada\n");
 		exit (1);
 	}

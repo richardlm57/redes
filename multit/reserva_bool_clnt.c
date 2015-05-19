@@ -23,14 +23,14 @@ make_reservation_3(seat *argp, int *clnt_res, CLIENT *clnt)
 		TIMEOUT));
 }
 
-enum clnt_stat 
-available_3(seat *argp, int *clnt_res, CLIENT *clnt)
-{
-	return (clnt_call(clnt, AVAILABLE,
-		(xdrproc_t) xdr_seat, (caddr_t) argp,
-		(xdrproc_t) xdr_int, (caddr_t) clnt_res,
-		TIMEOUT));
-}
+//enum clnt_stat 
+//available_3(seat *argp, int *clnt_res, CLIENT *clnt)
+//{
+//	return (clnt_call(clnt, AVAILABLE,
+//		(xdrproc_t) xdr_seat, (caddr_t) argp,
+//		(xdrproc_t) xdr_int, (caddr_t) clnt_res,
+//		TIMEOUT));
+//}
 
 enum clnt_stat 
 seats_3(void *argp, char **clnt_res, CLIENT *clnt)
