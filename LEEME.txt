@@ -110,4 +110,4 @@ se incluyó una función, que al final, no resultó necesaria. Por lo que la mis
 encuentra dentro de comentarios dentro de varias partes del código, se intentó elminar
 por completo pero generaba muchos errores. 
 
-Además se generan problemas al ejecutar el archivo en arquitecturas de 32 bits.
+Además el archivo XDR genera problemas al ejecutar el archivo en arquitecturas de 32 bits.
