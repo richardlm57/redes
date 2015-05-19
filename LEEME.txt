@@ -48,7 +48,7 @@ Donde <puerto_servicio> es el puerto que será usado para el servicio, <dir_IP_s
 del servidor, <fila_asiento> es la fila del asiento que se desea reserva (entre 1 y 10) y <columna_asiento>
 es la columna del asiento que se desea reservar (entre 1 y 4).
 
-
+************************************************************************************************************
 
 Lares_Reinoso_RPC.tar.gz
 
@@ -79,28 +79,33 @@ Para su ejecución:
 
 Primero se deben compilar los archivos, para ello se ejecuta:
 
-"make -f Makefile.reserva_bool"
+$> make -f Makefile.reserva_bool
 
 Para su ejecución es necesario el demonio "portmapper/rpcbind", en caso
 de no tenerlo instalado, ejecutar la orden:
 
-"apt-get install portmap"
+$> apt-get install portmap
 
 Luego se debe activar el demonio en background como superusuario:
 
-"sudo rpcbind &"
+$> sudo rpcbind &
 
 En modo privilegiado y en background se ejecuta el código del servicio remoto.
 
-"sudo ./reserva_bool_server &"
+$> sudo ./reserva_bool_server &
 
 Con esto, ya el servido remoto debe estar listo para su uso, si se quiere comprobar,
 se puede ejecutar "echo $?"y se debería obtener un "0"como respuesta.
 
 Ahora solo queda ejecutar el cliente:
 
-"sudo ./reserva_bool_client <dir_ip_servidor> -f <número de fila> -c <número de columna>"
+$> sudo ./reserva_bool_client <dir_ip_servidor> -f <número de fila> -c <número de columna>
 
 Donde dir_ip_servidor es la dirección IP del servidor y el valor de número de fila 
 debe ser un entero entre 1 y 10 (ambos incluidos), y número de columna debe ser 
 un entero entre 1 y 4 (ambos incluidos).
+
+En necesario destacar que al momento de crear la versión 3 del archivo reserva_bool.x,
+se incluyó una función, que al final, no resultó necesaria. Por lo que la misma se
+encuentra dentro de comentarios dentro de varias partes del código, se intentó elminar
+por completo pero generaba muchos errores. 
