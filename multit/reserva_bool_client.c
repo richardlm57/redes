@@ -42,7 +42,7 @@ void reserva_bool_prog_3(char *host, int row, int column){
 
 #endif	/* DEBUG */
 
-	result_3 = malloc(sizeof(char)*170);
+	result_3 = (char*)calloc(170, sizeof(char));
 
 	while (1){
 		/* Verificación de un valor válido para el número de fila*/

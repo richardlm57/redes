@@ -27,6 +27,7 @@ make_reservation_3_svc(seat *myseat, int *result, struct svc_req *rqstp)
 	char buffer[80];		// mensaje a imprimir en los logs
 	char *token;			// para eliminar el \n al final de un string
 
+	
 	time( &rawtime );
 
 	info = localtime( &rawtime );

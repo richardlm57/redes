@@ -153,3 +153,7 @@
 [Mon May 18 20:12:43 2015] [respuesta] [cliente 127.0.0.1]: Puesto fila 2, columna 1 ocupado.
 [Mon May 18 20:12:43 2015] [respuesta] [cliente 127.0.0.1]: Lista de puestos disponibles.
 [Mon May 18 20:12:46 2015] [respuesta] [cliente 127.0.0.1]: Puesto fila 1, columna 1 reservado.
+[Mon May 18 21:14:30 2015] [respuesta] [cliente 127.0.0.1]: Puesto fila 2, columna 1 reservado.
+[Mon May 18 21:14:32 2015] [respuesta] [cliente 127.0.0.1]: Puesto fila 2, columna 1 ocupado.
+[Mon May 18 21:14:32 2015] [respuesta] [cliente 127.0.0.1]: Lista de puestos disponibles.
+[Mon May 18 21:14:34 2015] [respuesta] [cliente 127.0.0.1]: Puesto fila 3, columna 1 reservado.
