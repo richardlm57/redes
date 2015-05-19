@@ -157,3 +157,11 @@
 [Mon May 18 21:14:32 2015] [respuesta] [cliente 127.0.0.1]: Puesto fila 2, columna 1 ocupado.
 [Mon May 18 21:14:32 2015] [respuesta] [cliente 127.0.0.1]: Lista de puestos disponibles.
 [Mon May 18 21:14:34 2015] [respuesta] [cliente 127.0.0.1]: Puesto fila 3, columna 1 reservado.
+[Mon May 18 21:19:09 2015] [respuesta] [cliente 127.0.0.1]: Puesto fila 2, columna 1 reservado.
+[Mon May 18 21:19:12 2015] [respuesta] [cliente 127.0.0.1]: Puesto fila 2, columna 1 ocupado.
+[Mon May 18 21:19:12 2015] [respuesta] [cliente 127.0.0.1]: Lista de puestos disponibles.
+[Mon May 18 21:19:13 2015] [respuesta] [cliente 127.0.0.1]: Puesto fila 1, columna 1 reservado.
+[Mon May 18 21:19:15 2015] [respuesta] [cliente 127.0.0.1]: Puesto fila 2, columna 1 ocupado.
+[Mon May 18 21:19:15 2015] [respuesta] [cliente 127.0.0.1]: Lista de puestos disponibles.
+[Mon May 18 21:19:16 2015] [respuesta] [cliente 127.0.0.1]: Puesto fila 2, columna 1 ocupado.
+[Mon May 18 21:19:16 2015] [respuesta] [cliente 127.0.0.1]: Lista de puestos disponibles.

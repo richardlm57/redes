@@ -69,3 +69,5 @@ Ahora solo queda ejecutar el cliente:
 Donde dir_ip_servidor es la dirección IP del servidor y el valor de número de fila 
 debe ser un entero entre 1 y 10 (ambos incluidos), y número de columna debe ser 
 un entero entre 1 y 4 (ambos incluidos).
+
+Además se generan problemas al ejecutar el archivo en arquitecturas de 32 bits.
