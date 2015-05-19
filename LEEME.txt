@@ -109,3 +109,5 @@ En necesario destacar que al momento de crear la versión 3 del archivo reserva_
 se incluyó una función, que al final, no resultó necesaria. Por lo que la misma se
 encuentra dentro de comentarios dentro de varias partes del código, se intentó elminar
 por completo pero generaba muchos errores. 
+
+Además se generan problemas al ejecutar el archivo en arquitecturas de 32 bits.
